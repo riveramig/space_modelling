@@ -1,10 +1,9 @@
-package org.javeriana.environment_reference;
+package org.javeriana.environmentReference;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.stream.IntStream;
 
 public class RelativeHumidity extends WeatherObject{

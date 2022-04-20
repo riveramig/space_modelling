@@ -1,4 +1,4 @@
-package org.javeriana.environment_reference;
+package org.javeriana.environmentReference;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

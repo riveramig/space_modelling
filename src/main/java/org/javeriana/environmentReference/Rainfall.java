@@ -1,4 +1,4 @@
-package org.javeriana.environment_reference;
+package org.javeriana.environmentReference;
 
 public class Rainfall extends WeatherObject{
 
