@@ -5,20 +5,20 @@ import org.javeriana.automata.core.cell.CellState;
 public class EvapotranspirationCellState implements CellState {
 
 
-    private double currentEvapotranspirationReference;
+    private double evapotranspirationReference;
 
     public EvapotranspirationCellState(double evapotranspirationReference) {
-        this.currentEvapotranspirationReference = evapotranspirationReference;
+        this.evapotranspirationReference = evapotranspirationReference;
     }
 
     public EvapotranspirationCellState(){}
 
-    public double getCurrentEvapotranspirationReference() {
-        return currentEvapotranspirationReference;
+    public double getEvapotranspirationReference() {
+        return evapotranspirationReference;
     }
 
-    public void setCurrentEvapotranspirationReference(double evapotranspirationReference) {
-        this.currentEvapotranspirationReference = evapotranspirationReference;
+    public void setEvapotranspirationReference(double evapotranspirationReference) {
+        this.evapotranspirationReference = evapotranspirationReference;
     }
 
 }

@@ -3,37 +3,37 @@ package org.javeriana.world.layer.crop.cell;
 import org.javeriana.automata.core.cell.CellState;
 
 public abstract class CropCellState implements CellState {
-    protected double riceEvapotranspiration;
-    protected double currentGrowingDegreeDays;
+    protected double evapotranspiration;
+    protected double growingDegreeDays;
     protected boolean isActiveCrop;
-    protected double currentDiseaseProbability;
-    protected double currentAboveGroundBiomass;
+    protected double diseaseProbability;
+    protected double aboveGroundBiomass;
 
     public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, boolean isActiveCrop, double currentDiseaseProbability, double currentAboveGroundBiomass) {
-        this.riceEvapotranspiration = riceEvapotranspiration;
-        this.currentGrowingDegreeDays = currentGrowingDegreeDays;
+        this.evapotranspiration = riceEvapotranspiration;
+        this.growingDegreeDays = currentGrowingDegreeDays;
         this.isActiveCrop = isActiveCrop;
-        this.currentDiseaseProbability = currentDiseaseProbability;
-        this.currentAboveGroundBiomass = currentAboveGroundBiomass;
+        this.diseaseProbability = currentDiseaseProbability;
+        this.aboveGroundBiomass = currentAboveGroundBiomass;
     }
 
     public CropCellState() {
     }
 
-    public double getRiceEvapotranspiration() {
-        return riceEvapotranspiration;
+    public double getEvapotranspiration() {
+        return evapotranspiration;
     }
 
-    public void setRiceEvapotranspiration(double riceEvapotranspiration) {
-        this.riceEvapotranspiration = riceEvapotranspiration;
+    public void setEvapotranspiration(double evapotranspiration) {
+        this.evapotranspiration = evapotranspiration;
     }
 
-    public double getCurrentGrowingDegreeDays() {
-        return currentGrowingDegreeDays;
+    public double getGrowingDegreeDays() {
+        return growingDegreeDays;
     }
 
-    public void setCurrentGrowingDegreeDays(double currentGrowingDegreeDays) {
-        this.currentGrowingDegreeDays = currentGrowingDegreeDays;
+    public void setGrowingDegreeDays(double growingDegreeDays) {
+        this.growingDegreeDays = growingDegreeDays;
     }
 
     public boolean isActiveCrop() {
@@ -44,19 +44,19 @@ public abstract class CropCellState implements CellState {
         isActiveCrop = activeCrop;
     }
 
-    public double getCurrentDiseaseProbability() {
-        return currentDiseaseProbability;
+    public double getDiseaseProbability() {
+        return diseaseProbability;
     }
 
-    public void setCurrentDiseaseProbability(double currentDiseaseProbability) {
-        this.currentDiseaseProbability = currentDiseaseProbability;
+    public void setDiseaseProbability(double diseaseProbability) {
+        this.diseaseProbability = diseaseProbability;
     }
 
-    public double getCurrentAboveGroundBiomass() {
-        return currentAboveGroundBiomass;
+    public double getAboveGroundBiomass() {
+        return aboveGroundBiomass;
     }
 
-    public void setCurrentAboveGroundBiomass(double currentAboveGroundBiomass) {
-        this.currentAboveGroundBiomass = currentAboveGroundBiomass;
+    public void setAboveGroundBiomass(double aboveGroundBiomass) {
+        this.aboveGroundBiomass = aboveGroundBiomass;
     }
 }

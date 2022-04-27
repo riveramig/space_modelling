@@ -1,34 +1,26 @@
-package org.javeriana.world.layer.rainfall;
+package org.javeriana.world.layer.temperature;
 
 import org.javeriana.automata.core.layer.LayerExecutionParams;
-import org.javeriana.util.WorldConfiguration;
 import org.javeriana.world.helper.DateHelper;
-import org.javeriana.world.helper.MonthlyDataLoader;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.SimWorldSimpleLayer;
-import org.javeriana.world.layer.data.MonthData;
+import org.javeriana.world.layer.rainfall.RainfallCellState;
 
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Random;
 
-public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
+public class TemperatureLayer extends SimWorldSimpleLayer<TemperatureCell> {
 
 
-    public RainfallLayer(String dataFile) {
+    public TemperatureLayer(String dataFile) {
         super(dataFile);
-        this.cell = new RainfallCell("rainCell");
+        this.cell = new TemperatureCell("tempCell");
     }
-
 
     @Override
     public void setupLayer() {}
 
     @Override
-    public void executeLayer() {
-        throw new RuntimeException("Method not implemented");
-    }
+    public void executeLayer() {}
 
     @Override
     public <P extends LayerExecutionParams> void executeLayer(P params) {

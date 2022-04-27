@@ -13,9 +13,7 @@ public class CropLayer extends GenericMatrixCellLayer<CropCell> {
     }
 
     @Override
-    public void setupLayer() {
-
-    }
+    public void setupLayer() {}
 
     @Override
     public void executeLayer() {

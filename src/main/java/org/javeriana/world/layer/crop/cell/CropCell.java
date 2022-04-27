@@ -7,13 +7,17 @@ public abstract class CropCell<S extends CellState> extends GenericWorldCell<S> 
     protected double cropFactor_ini;
     protected double cropFactor_mid;
     protected double cropFactor_end;
+    protected double degreeDays_mid;
+    protected double degreeDays_end;
     protected int widthCrop;
     protected int longCrop;
 
-    public CropCell(double cropFactor_ini, double cropFactor_mid, double cropFactor_end, int widthCrop, int longCrop) {
+    public CropCell(double cropFactor_ini, double cropFactor_mid, double cropFactor_end, double degreeDays_mid, double degreeDays_end, int widthCrop, int longCrop) {
         this.cropFactor_ini = cropFactor_ini;
         this.cropFactor_mid = cropFactor_mid;
         this.cropFactor_end = cropFactor_end;
+        this.degreeDays_mid = degreeDays_mid;
+        this.degreeDays_end = degreeDays_end;
         this.widthCrop = widthCrop;
         this.longCrop = longCrop;
     }
@@ -59,5 +63,21 @@ public abstract class CropCell<S extends CellState> extends GenericWorldCell<S> 
 
     public void setLongCrop(int longCrop) {
         this.longCrop = longCrop;
+    }
+
+    public double getDegreeDays_mid() {
+        return degreeDays_mid;
+    }
+
+    public void setDegreeDays_mid(double degreeDays_mid) {
+        this.degreeDays_mid = degreeDays_mid;
+    }
+
+    public double getDegreeDays_end() {
+        return degreeDays_end;
+    }
+
+    public void setDegreeDays_end(double degreeDays_end) {
+        this.degreeDays_end = degreeDays_end;
     }
 }

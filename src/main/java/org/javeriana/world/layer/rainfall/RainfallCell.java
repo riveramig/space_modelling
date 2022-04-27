@@ -12,7 +12,7 @@ public class RainfallCell extends GenericWorldCell<RainfallCellState> {
 
     @Override
     public String getId() {
-        return null;
+        return this.id;
     }
 
     public void setId(String id) {
