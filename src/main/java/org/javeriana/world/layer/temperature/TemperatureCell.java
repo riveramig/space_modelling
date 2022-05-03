@@ -1,9 +1,9 @@
 package org.javeriana.world.layer.temperature;
 
-import org.javeriana.automata.core.cell.CellState;
-import org.javeriana.automata.core.cell.GenericWorldCell;
+import org.javeriana.automata.core.cell.LayerCellState;
+import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
-public class TemperatureCell extends GenericWorldCell<CellState> {
+public class TemperatureCell extends GenericWorldLayerCell<LayerCellState> {
 
 
     private String id;

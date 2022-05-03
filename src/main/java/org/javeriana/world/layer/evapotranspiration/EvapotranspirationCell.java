@@ -1,8 +1,8 @@
 package org.javeriana.world.layer.evapotranspiration;
 
-import org.javeriana.automata.core.cell.GenericWorldCell;
+import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
-public class EvapotranspirationCell extends GenericWorldCell<EvapotranspirationCellState> {
+public class EvapotranspirationCell extends GenericWorldLayerCell<EvapotranspirationCellState> {
 
     private String id;
 

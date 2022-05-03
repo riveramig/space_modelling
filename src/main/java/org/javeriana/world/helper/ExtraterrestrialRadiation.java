@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class ExtraterrestrialRadiation {
 
-    public static HashMap<Integer, double[]> northernData = new HashMap<Integer, double[]>(){{
+    private static HashMap<Integer, double[]> northernData = new HashMap<Integer, double[]>(){{
         put (0, new double[]{36.2,37.5,37.9,36.8,34.8,33.4,33.9,35.7,37.3,37.4,36.3,35.6});
         put (2, new double[]{36.9,37.9,38.0,36.4,34.1,31.6,33.1,35.2,37.1,37.7,37.0,36.4});
         put (4, new double[]{37.6,38.3,38.0,36.0,33.4,31.8,32.3,34.6,37.0,38.0,37.6,37.2});
@@ -46,7 +46,7 @@ public class ExtraterrestrialRadiation {
         put(70, new double[]{41.4,28.6,15.8,4.9,0.2,0.0,0.0,2.2,10.7,23.5,37.3,45.3});
     }};
 
-    public static HashMap<Integer, double[]> southernData = new HashMap<Integer, double[]>(){{
+    private static HashMap<Integer, double[]> southernData = new HashMap<Integer, double[]>(){{
         put (0, new double[]{0.0,2.6,10.4,23.0,35.2,42.5,39.4,28.0,14.9,4.9,0.1,0.0});
         put (2, new double[]{0.1,3.7,11.7,23.9,35.3,42.0,38.9,28.6,16.1,6.0,0.7,0.0});
         put (4, new double[]{0.6,4.8,12.9,24.8,35.6,41.4,38.8,29.3,17.3,7.2,1.5,0.1});
@@ -85,4 +85,11 @@ public class ExtraterrestrialRadiation {
         put (70, new double[]{36.2,37.5,37.9,36.8,34.8,33,4,33.9,35.7,37.2,37.4,36.3,35.6});
     }};
 
+    public static HashMap<Integer, double[]> getNorthernData() {
+        return northernData;
+    }
+
+    public static HashMap<Integer, double[]> getSouthernData() {
+        return southernData;
+    }
 }

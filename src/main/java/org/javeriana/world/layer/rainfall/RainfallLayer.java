@@ -1,20 +1,17 @@
 package org.javeriana.world.layer.rainfall;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.layer.LayerExecutionParams;
-import org.javeriana.util.WorldConfiguration;
 import org.javeriana.world.helper.DateHelper;
-import org.javeriana.world.helper.MonthlyDataLoader;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.SimWorldSimpleLayer;
-import org.javeriana.world.layer.data.MonthData;
 
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Random;
 
 public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
 
+    private static final Logger logger = LogManager.getLogger(RainfallLayer.class);
 
     public RainfallLayer(String dataFile) {
         super(dataFile);
@@ -31,12 +28,14 @@ public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
     }
 
     @Override
-    public <P extends LayerExecutionParams> void executeLayer(P params) {
+    public void executeLayer(LayerExecutionParams params) {
         LayerFunctionParams params1 = (LayerFunctionParams) params;
         String dateFormat = this.worldConfig.getProperty("date.format");
         try {
             int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate(), dateFormat);
-            this.cell.setCellState(params1.getDate(), new RainfallCellState(this.calculateRandomFromMonthData(monthFromDate)));
+            double nextRainfallRate = this.calculateGaussianFromMonthData(monthFromDate);
+            logger.info("Next rainfall rate: "+nextRainfallRate);
+            this.cell.setCellState(params1.getDate(), new RainfallCellState(this.calculateGaussianFromMonthData(monthFromDate)));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

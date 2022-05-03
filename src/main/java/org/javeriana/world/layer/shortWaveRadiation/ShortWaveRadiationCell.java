@@ -1,9 +1,9 @@
 package org.javeriana.world.layer.shortWaveRadiation;
 
-import org.javeriana.automata.core.cell.GenericWorldCell;
+import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
 
-public class ShortWaveRadiationCell extends GenericWorldCell<ShortWaveRadiationCellState> {
+public class ShortWaveRadiationCell extends GenericWorldLayerCell<ShortWaveRadiationCellState> {
 
     private String id;
 

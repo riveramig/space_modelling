@@ -1,8 +1,8 @@
 package org.javeriana.world.layer.shortWaveRadiation;
 
-import org.javeriana.automata.core.cell.CellState;
+import org.javeriana.automata.core.cell.LayerCellState;
 
-public class ShortWaveRadiationCellState implements CellState {
+public class ShortWaveRadiationCellState implements LayerCellState {
 
     private double shortWaveRadiation;
 

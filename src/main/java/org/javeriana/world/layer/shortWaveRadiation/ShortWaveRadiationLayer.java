@@ -1,21 +1,21 @@
 package org.javeriana.world.layer.shortWaveRadiation;
 
-import org.javeriana.automata.core.layer.GenericUniqueCellLayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.layer.LayerExecutionParams;
 import org.javeriana.util.WorldConfiguration;
 import org.javeriana.world.helper.DateHelper;
 import org.javeriana.world.helper.ExtraterrestrialRadiation;
 import org.javeriana.world.helper.Hemisphere;
-import org.javeriana.world.helper.MonthlyDataLoader;
 import org.javeriana.world.layer.LayerFunctionParams;
+import org.javeriana.world.layer.SimWorldSimpleLayer;
 import org.javeriana.world.layer.data.MonthData;
 
-import java.io.*;
 import java.text.ParseException;
-import java.util.List;
-import java.util.Random;
 
-public class ShortWaveRadiationLayer extends GenericUniqueCellLayer<ShortWaveRadiationCell> {
+public class ShortWaveRadiationLayer extends SimWorldSimpleLayer<ShortWaveRadiationCell> {
+
+    private static final Logger logger = LogManager.getLogger(ShortWaveRadiationLayer.class);
 
     private double a_s = 0.25;
     private double b_s = 0.5;
@@ -25,36 +25,27 @@ public class ShortWaveRadiationLayer extends GenericUniqueCellLayer<ShortWaveRad
     private double [] monthlyExtraterrestrialRadiationForLocation;
 
     private int latitudeDegrees;
-    private Random random;
-
-    private List<MonthData> monthlyData;
 
     private WorldConfiguration worldConfig =  WorldConfiguration.getPropsInstance();
 
-    public ShortWaveRadiationLayer(Hemisphere hemisphere, int latitudeDegrees) {
+    public ShortWaveRadiationLayer(String datafile, Hemisphere hemisphere, int latitudeDegrees) {
+        super(datafile);
         this.hemisphere = hemisphere;
         this.latitudeDegrees = latitudeDegrees;
         this.cell = new ShortWaveRadiationCell("radCell");
-        this.random = new Random();
         this.setupLayer();
     }
 
     @Override
     public void setupLayer() {
-        try{
-            this.monthlyData = MonthlyDataLoader.loadMonthlyDataFile(this.worldConfig.getProperty("data.radiation"));
-            if(this.hemisphere == Hemisphere.NORTHERN) {
-                this.monthlyExtraterrestrialRadiationForLocation = ExtraterrestrialRadiation.northernData.get(
-                        this.latitudeDegrees % 2 == 0 ? this.latitudeDegrees : this.latitudeDegrees + 1
-                );
-            } else {
-                this.monthlyExtraterrestrialRadiationForLocation = ExtraterrestrialRadiation.southernData.get(
-                        this.latitudeDegrees % 2 == 0 ? this.latitudeDegrees : this.latitudeDegrees + 1
-                );
-            }
-        } catch(IOException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException(exception.getMessage());
+        if(this.hemisphere == Hemisphere.NORTHERN) {
+            this.monthlyExtraterrestrialRadiationForLocation = ExtraterrestrialRadiation.getNorthernData().get(
+                    this.latitudeDegrees % 2 == 0 ? this.latitudeDegrees : this.latitudeDegrees + 1
+            );
+        } else {
+            this.monthlyExtraterrestrialRadiationForLocation = ExtraterrestrialRadiation.getSouthernData().get(
+                    this.latitudeDegrees % 2 == 0 ? this.latitudeDegrees : this.latitudeDegrees + 1
+            );
         }
     }
 
@@ -64,13 +55,15 @@ public class ShortWaveRadiationLayer extends GenericUniqueCellLayer<ShortWaveRad
     }
 
     @Override
-    public <P extends LayerExecutionParams> void executeLayer(P params) {
+    public void executeLayer(LayerExecutionParams params) {
         LayerFunctionParams params1 = (LayerFunctionParams) params;
         String dateFormat = this.worldConfig.getProperty("date.format");
         try {
             int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate(), dateFormat);
+            double nextShortWaveRadiationRate = this.calculateNetShortWaveRadiationForMonth(monthFromDate);
+            logger.info("Next short wave radiation rate: "+nextShortWaveRadiationRate);
             this.cell.setCellState(params1.getDate(),
-                    new ShortWaveRadiationCellState(this.calculateNetShortWaveRadiationForMonth(monthFromDate))
+                    new ShortWaveRadiationCellState(nextShortWaveRadiationRate)
             );
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -83,12 +76,8 @@ public class ShortWaveRadiationLayer extends GenericUniqueCellLayer<ShortWaveRad
 
     private double calculateShortWaveRadiation(int month) {
         MonthData monthData = this.monthlyData.get(month);
-        return (this.a_s + this.b_s * (this.getRandomFromMonthData(month)/monthData.getMaxValue())) * this.monthlyExtraterrestrialRadiationForLocation[month];
+        return (this.a_s + this.b_s * (this.calculateGaussianFromMonthData(month)/monthData.getMaxValue())) * this.monthlyExtraterrestrialRadiationForLocation[month];
     }
 
-    private double getRandomFromMonthData(int month) {
-        MonthData monthData = this.monthlyData.get(month);
-        return monthData.getAverage()-monthData.getStandardDeviation() + (((monthData.getAverage()+monthData.getStandardDeviation()) - (monthData.getAverage()-monthData.getStandardDeviation())) * this.random.nextDouble());
-    }
 
 }

@@ -1,19 +1,15 @@
 package org.javeriana.world.layer.crop.cell;
 
-import org.javeriana.automata.core.cell.CellState;
+import org.javeriana.automata.core.cell.LayerCellState;
 
-public abstract class CropCellState implements CellState {
+public class CropCellState implements LayerCellState {
     protected double evapotranspiration;
     protected double growingDegreeDays;
-    protected boolean isActiveCrop;
-    protected double diseaseProbability;
     protected double aboveGroundBiomass;
 
-    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, boolean isActiveCrop, double currentDiseaseProbability, double currentAboveGroundBiomass) {
+    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass) {
         this.evapotranspiration = riceEvapotranspiration;
         this.growingDegreeDays = currentGrowingDegreeDays;
-        this.isActiveCrop = isActiveCrop;
-        this.diseaseProbability = currentDiseaseProbability;
         this.aboveGroundBiomass = currentAboveGroundBiomass;
     }
 
@@ -34,22 +30,6 @@ public abstract class CropCellState implements CellState {
 
     public void setGrowingDegreeDays(double growingDegreeDays) {
         this.growingDegreeDays = growingDegreeDays;
-    }
-
-    public boolean isActiveCrop() {
-        return isActiveCrop;
-    }
-
-    public void setActiveCrop(boolean activeCrop) {
-        isActiveCrop = activeCrop;
-    }
-
-    public double getDiseaseProbability() {
-        return diseaseProbability;
-    }
-
-    public void setDiseaseProbability(double diseaseProbability) {
-        this.diseaseProbability = diseaseProbability;
     }
 
     public double getAboveGroundBiomass() {

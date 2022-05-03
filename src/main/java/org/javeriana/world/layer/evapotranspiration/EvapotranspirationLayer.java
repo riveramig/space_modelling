@@ -1,31 +1,28 @@
 package org.javeriana.world.layer.evapotranspiration;
 
-import org.javeriana.automata.core.layer.GenericUniqueCellLayer;
-import org.javeriana.automata.core.layer.LayerExecutionParams;
-import org.javeriana.world.layer.LayerFunctionParams;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.javeriana.automata.core.layer.LayerExecutionParams;
+import org.javeriana.world.helper.DateHelper;
+import org.javeriana.world.layer.LayerFunctionParams;
+import org.javeriana.world.layer.SimWorldSimpleLayer;
+
+import java.text.ParseException;
 import java.util.Random;
 
-public class EvapotranspirationLayer extends GenericUniqueCellLayer<EvapotranspirationCell> {
+public class EvapotranspirationLayer extends SimWorldSimpleLayer<EvapotranspirationCell> {
 
-    private double average;
-    private double standardDeviation;
+    private static final Logger logger = LogManager.getLogger(EvapotranspirationLayer.class);
 
-    private Random random;
-
-    private String id;
-
-    public EvapotranspirationLayer(double average, double standardDeviation) {
-        this.average = average;
-        this.standardDeviation = standardDeviation;
-        this.setupLayer();
+    public EvapotranspirationLayer(String dataFile) {
+        super(dataFile);
+        this.cell = new EvapotranspirationCell("evapoCell");
     }
 
     @Override
     public void setupLayer() {
-        this.id = "evapoLayer";
-        this.cell = new EvapotranspirationCell("evapoCell");
-        this.random = new Random();
+
     }
 
     @Override
@@ -34,13 +31,16 @@ public class EvapotranspirationLayer extends GenericUniqueCellLayer<Evapotranspi
     }
 
     @Override
-    public <P extends LayerExecutionParams> void executeLayer(P params) {
-        LayerFunctionParams paramsCasted = (LayerFunctionParams) params;
-        this.cell.setCellState(paramsCasted.getDate(),new EvapotranspirationCellState(this.generateEvapotranspiration()));
-    }
-
-    private double generateEvapotranspiration() {
-        double rand = this.average-this.standardDeviation + (((this.average+this.standardDeviation) - (this.average-this.standardDeviation)) * this.random.nextDouble());
-        return rand;
+    public void executeLayer(LayerExecutionParams params) {
+        LayerFunctionParams params1 = (LayerFunctionParams) params;
+        String dateFormat = this.worldConfig.getProperty("date.format");
+        try {
+            int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate(), dateFormat);
+            double nextEvapotranspirationRate = this.calculateGaussianFromMonthData(monthFromDate);
+            logger.info("Next evapotranspiration rate: "+nextEvapotranspirationRate);
+            this.cell.setCellState(params1.getDate(), new EvapotranspirationCellState(nextEvapotranspirationRate));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,8 +1,8 @@
 package org.javeriana.world.layer.rainfall;
 
-import org.javeriana.automata.core.cell.CellState;
+import org.javeriana.automata.core.cell.LayerCellState;
 
-public class RainfallCellState implements CellState {
+public class RainfallCellState implements LayerCellState {
 
     private double rainfall;
 

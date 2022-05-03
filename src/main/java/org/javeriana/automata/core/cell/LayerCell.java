@@ -1,8 +1,8 @@
 package org.javeriana.automata.core.cell;
 
-public interface Cell {
+public interface LayerCell {
 
-    CellState getCellState();
+    LayerCellState getCellState();
 
     String getId();
 

@@ -1,8 +1,8 @@
 package org.javeriana.world.layer.evapotranspiration;
 
-import org.javeriana.automata.core.cell.CellState;
+import org.javeriana.automata.core.cell.LayerCellState;
 
-public class EvapotranspirationCellState implements CellState {
+public class EvapotranspirationCellState implements LayerCellState {
 
 
     private double evapotranspirationReference;

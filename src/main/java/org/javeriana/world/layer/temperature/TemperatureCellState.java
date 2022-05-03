@@ -1,8 +1,8 @@
 package org.javeriana.world.layer.temperature;
 
-import org.javeriana.automata.core.cell.CellState;
+import org.javeriana.automata.core.cell.LayerCellState;
 
-public class TemperatureCellState implements CellState {
+public class TemperatureCellState implements LayerCellState {
 
     private double temperature;
 

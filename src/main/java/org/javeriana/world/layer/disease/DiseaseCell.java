@@ -1,12 +1,12 @@
-package org.javeriana.world.layer.rainfall;
+package org.javeriana.world.layer.disease;
 
 import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
-public class RainfallCell extends GenericWorldLayerCell<RainfallCellState> {
+public class DiseaseCell extends GenericWorldLayerCell<DiseaseCellState> {
 
     private String id;
 
-    public RainfallCell(String id) {
+    public DiseaseCell(String id) {
         this.id = id;
     }
 
@@ -14,5 +14,4 @@ public class RainfallCell extends GenericWorldLayerCell<RainfallCellState> {
     public String getId() {
         return this.id;
     }
-
 }
