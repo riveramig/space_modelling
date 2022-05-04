@@ -1,6 +1,7 @@
 package org.javeriana;
 
 import org.javeriana.util.WorldConfiguration;
+import org.javeriana.world.LayerExecutor;
 import org.javeriana.world.helper.Hemisphere;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.crop.CropLayer;
@@ -64,9 +65,9 @@ public class App
                 1650,
                 9900,
                 20,
-                20,
-                "root_1",
-                root1DiseaseCell
+                true,
+                root1DiseaseCell,
+                "root_1"
                 );
         RootCell root2 = new RootCell(
                 0.5,
@@ -75,9 +76,9 @@ public class App
                 1650,
                 9900,
                 30,
-                30,
-                "root_2",
-                root2DiseaseCell
+                true,
+                root2DiseaseCell,
+                "root_2"
         );
         RiceCell rice1 = new RiceCell(
                 1.20,
@@ -86,9 +87,9 @@ public class App
                 1512,
                 3330,
                 30,
-                30,
-                "rice_1",
-                rice1DiseaseCell
+                true,
+                rice1DiseaseCell,
+                "rice_1"
         );
         RiceCell rice2 = new RiceCell(
                 1.20,
@@ -97,9 +98,9 @@ public class App
                 1512,
                 3330,
                 15,
-                15,
-                "rice_2",
-                rice2DiseaseCell
+                true,
+                rice2DiseaseCell,
+                "rice_2"
         );
 
 
@@ -114,14 +115,13 @@ public class App
         cropLayer.bindLayer("temperature", temperatureLayer);
         cropLayer.bindLayer("evapotranspiration", evapotranspirationLayer);
 
-        radiationLayer.executeLayer(new LayerFunctionParams("12/01/2021"));
-        rainfallLayer.executeLayer(new LayerFunctionParams("12/01/2021"));
-        temperatureLayer.executeLayer(new LayerFunctionParams("12/01/2021"));
-        evapotranspirationLayer.executeLayer(new LayerFunctionParams("12/01/2021"));
 
-        cropLayer.executeLayer(new LayerFunctionParams("12/01/2021"));
-
-
+        //----------------------------------- Layer executor -------------------------------
+        LayerExecutor layerExecutor = new LayerExecutor();
+        layerExecutor.addLayer(radiationLayer,temperatureLayer,evapotranspirationLayer,rainfallLayer,diseaseLayer,cropLayer);
+        layerExecutor.executeLayers(new LayerFunctionParams("01/01/2022"));
+        layerExecutor.executeLayers(new LayerFunctionParams("01/02/2022"));
+        cropLayer.writeCropData();
     }
 
 

@@ -10,8 +10,9 @@ import org.javeriana.world.helper.Hemisphere;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.SimWorldSimpleLayer;
 import org.javeriana.world.layer.data.MonthData;
-
-import java.text.ParseException;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class ShortWaveRadiationLayer extends SimWorldSimpleLayer<ShortWaveRadiationCell> {
 
@@ -57,16 +58,22 @@ public class ShortWaveRadiationLayer extends SimWorldSimpleLayer<ShortWaveRadiat
     @Override
     public void executeLayer(LayerExecutionParams params) {
         LayerFunctionParams params1 = (LayerFunctionParams) params;
-        String dateFormat = this.worldConfig.getProperty("date.format");
-        try {
-            int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate(), dateFormat);
+        if(this.cell.getCellState() == null) {
+            int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate());
             double nextShortWaveRadiationRate = this.calculateNetShortWaveRadiationForMonth(monthFromDate);
-            logger.info("Next short wave radiation rate: "+nextShortWaveRadiationRate);
             this.cell.setCellState(params1.getDate(),
                     new ShortWaveRadiationCellState(nextShortWaveRadiationRate)
             );
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        } else {
+            DateTimeFormatter dtfOut = DateTimeFormat.forPattern(this.worldConfig.getProperty("date.format"));
+            int daysBetweenLastDataAndNewEvent = DateHelper.differenceDaysBetweenTwoDates(this.cell.getDate(),params1.getDate());
+            for (int i = 0; i < daysBetweenLastDataAndNewEvent; i++) {
+                DateTime previousStateDate = DateHelper.getDateInJoda(this.cell.getDate());
+                DateTime previousStateDatePlusOneDay = previousStateDate.plusDays(1);
+                int month = previousStateDatePlusOneDay.getMonthOfYear()-1;
+                String newDate = dtfOut.print(previousStateDatePlusOneDay);
+                this.cell.setCellState(newDate, new ShortWaveRadiationCellState(this.calculateNetShortWaveRadiationForMonth(month)));
+            }
         }
     }
 

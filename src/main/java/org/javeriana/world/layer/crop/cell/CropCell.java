@@ -23,6 +23,7 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
         this.degreeDays_mid = degreeDays_mid;
         this.degreeDays_end = degreeDays_end;
         this.cropArea = cropArea;
+        this.isActive=isActive;
         this.diseaseCell = diseaseCell;
     }
 

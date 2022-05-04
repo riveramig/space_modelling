@@ -1,13 +1,16 @@
 package org.javeriana.world.layer.evapotranspiration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
 public class EvapotranspirationCellState implements LayerCellState {
 
-
+    private static final Logger logger = LogManager.getLogger(EvapotranspirationCellState.class);
     private double evapotranspirationReference;
 
     public EvapotranspirationCellState(double evapotranspirationReference) {
+        logger.info("Next evapotranspiration state: "+evapotranspirationReference);
         this.evapotranspirationReference = evapotranspirationReference;
     }
 

@@ -89,11 +89,17 @@ public abstract class GenericWorldLayerCell<S extends LayerCellState> implements
      * @param cellState new cell state
      */
     public void setCellState(String date, S cellState) {
-        if(this.cellState != null) {
-            this.historicalStates.put(this.date,this.cellState);
-        }
+        this.historicalStates.put(date,cellState);
         this.cellState = cellState;
         this.date = date;
+    }
+
+    /**
+     * Get current cell state date
+     * @return current cell state date
+     */
+    public String getDate() {
+        return date;
     }
 
     /**

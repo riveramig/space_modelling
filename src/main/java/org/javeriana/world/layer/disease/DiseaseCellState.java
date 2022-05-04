@@ -5,7 +5,6 @@ import org.javeriana.automata.core.cell.LayerCellState;
 public class DiseaseCellState implements LayerCellState {
 
     private double probabilityDisease;
-    private double percentageOfInsecticide;
 
     private boolean infected;
 
@@ -19,15 +18,6 @@ public class DiseaseCellState implements LayerCellState {
     public void setCurrentProbabilityDisease(double currentProbabilityDisease) {
         this.probabilityDisease = currentProbabilityDisease;
     }
-
-    public double getPercentageOfInsecticide() {
-        return percentageOfInsecticide;
-    }
-
-    public void setPercentageOfInsecticide(double percentageOfInsecticide) {
-        this.percentageOfInsecticide = percentageOfInsecticide;
-    }
-
     public double getProbabilityDisease() {
         return probabilityDisease;
     }

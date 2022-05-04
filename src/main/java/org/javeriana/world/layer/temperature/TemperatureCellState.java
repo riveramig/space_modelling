@@ -1,13 +1,18 @@
 package org.javeriana.world.layer.temperature;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
 public class TemperatureCellState implements LayerCellState {
+
+    private static final Logger logger = LogManager.getLogger(TemperatureCell.class);
 
     private double temperature;
 
 
     public TemperatureCellState(double temperature) {
+        logger.info("New temperature state: " + temperature);
         this.temperature = temperature;
     }
 
