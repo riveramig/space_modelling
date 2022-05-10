@@ -54,11 +54,14 @@ public class CropLayer extends GenericWorldLayer {
         RainfallLayer rainfallLayer = (RainfallLayer) this.dependantLayers.get("rainfall");
         this.cropCellList.parallelStream().filter(CropCell::isActive).forEach(currentCell -> {
             CropCellState currentState = (CropCellState) currentCell.getCellState();
+            double diseaseDamageCropFactor = Double.parseDouble(this.config.getProperty("disease.damagesCrop"));
             if(currentState == null) {
                 CropCellState newCellState = new CropCellState();
-                newCellState.setEvapotranspiration(currentCell.getCropFactor_ini()*((EvapotranspirationCellState)evapotranspirationLayer.getCell().getCellStateByDate(paramsLayer.getDate())).getEvapotranspirationReference());
+                double evapotranspiration = currentCell.getCropFactor_ini()*(evapotranspirationLayer.getCell().getCellStateByDate(paramsLayer.getDate())).getEvapotranspirationReference();
+                newCellState.setEvapotranspiration(evapotranspiration);
                 newCellState.setAboveGroundBiomass(0);
                 newCellState.setGrowingDegreeDays(((TemperatureCellState)temperatureLayer.getCell().getCellStateByDate(paramsLayer.getDate())).getTemperature());
+                newCellState.setCumulatedEvapotranspiration(evapotranspiration);
                 currentCell.setCellState(paramsLayer.getDate(),newCellState);
             } else {
                 int daysBetweenLastDataAndEvent = DateHelper.differenceDaysBetweenTwoDates(currentCell.getDate(),paramsLayer.getDate());
@@ -71,26 +74,52 @@ public class CropLayer extends GenericWorldLayer {
                     newCellState.setGrowingDegreeDays(previousState.getGrowingDegreeDays()+((TemperatureCellState)temperatureLayer.getCell().getCellStateByDate(newDate)).getTemperature());
                     //------------------------------- growing degree days and k_c logic ----------------------------------------
                     double maximumRadiationEfficiency = Double.parseDouble(this.config.getProperty("agb.maximumRadiationEfficiency"));
-                    double diseaseDamageCropFactor = Double.parseDouble(this.config.getProperty("disease.damagesCrop"));
                     double agbConversionFactor = Double.parseDouble(this.config.getProperty("agb.conversionFactor"));
+                    double getShortWaveRadiationForDate = shortWaveRadiationLayer.getCell().getCellStateByDate(newDate).getShortWaveRadiation();
+                    double evapotranspirationForDate = evapotranspirationLayer.getCell().getCellStateByDate(newDate).getEvapotranspirationReference();
                     if(newCellState.getGrowingDegreeDays()<currentCell.getDegreeDays_mid()) {
-                        newCellState.setEvapotranspiration(
-                                currentCell.getCropFactor_ini()*
-                                ((evapotranspirationLayer.getCell().getCellStateByDate(newDate)).getEvapotranspirationReference())*
-                                (((DiseaseCellState)currentCell.getDiseaseCell().getCellState()).isInfected() ? diseaseDamageCropFactor : 1)
-                                //Missing water stress factor
-                        );
-                    }else if (newCellState.getGrowingDegreeDays()>=currentCell.getDegreeDays_mid() && currentState.getGrowingDegreeDays()<currentCell.getDegreeDays_end()) {
-                        newCellState.setEvapotranspiration(currentCell.getCropFactor_mid()*((EvapotranspirationCellState)evapotranspirationLayer.getCell().getCellStateByDate(newDate)).getEvapotranspirationReference());
-                    }else {
-                        newCellState.setEvapotranspiration(currentCell.getCropFactor_end()*((EvapotranspirationCellState)evapotranspirationLayer.getCell().getCellStateByDate(newDate)).getEvapotranspirationReference());
+                        double cropEvapotranspiration = currentCell.getCropFactor_ini()*evapotranspirationForDate;
+                        setCropEvapotranspiration(currentCell, previousState, newDate, newCellState, maximumRadiationEfficiency, diseaseDamageCropFactor, agbConversionFactor, getShortWaveRadiationForDate, cropEvapotranspiration);
+                    }else if (newCellState.getGrowingDegreeDays()>=currentCell.getDegreeDays_mid() && newCellState.getGrowingDegreeDays()<currentCell.getDegreeDays_end()) {
+                        double cropEvapotranspiration = currentCell.getCropFactor_mid()*evapotranspirationForDate;
+                        setCropEvapotranspiration(currentCell, previousState, newDate, newCellState, maximumRadiationEfficiency, diseaseDamageCropFactor, agbConversionFactor, getShortWaveRadiationForDate, cropEvapotranspiration);
+                    }else{
                         //------------------------------------ alert peasant crop is ready to collect ---------------------------------------------------
+                        if(newCellState.getGrowingDegreeDays() > currentCell.getDegreeDays_end()) {
+                            currentCell.setCellState(newDate,previousState);
+                        } else {
+                            double cropEvapotranspiration = currentCell.getCropFactor_end()*evapotranspirationForDate;
+                            setCropEvapotranspiration(currentCell, previousState, newDate, newCellState, maximumRadiationEfficiency, diseaseDamageCropFactor, agbConversionFactor, getShortWaveRadiationForDate, cropEvapotranspiration);
+                        }
                     }
-                    newCellState.setAboveGroundBiomass(previousState.getAboveGroundBiomass()+maximumRadiationEfficiency*newCellState.getEvapotranspiration()*((ShortWaveRadiationCellState)shortWaveRadiationLayer.getCell().getCellStateByDate(newDate)).getShortWaveRadiation()*agbConversionFactor);
-                    currentCell.setCellState(newDate, newCellState);
                 }
             }
         });
+    }
+
+    private void setCropEvapotranspiration(CropCell currentCell,
+                                           CropCellState previousState,
+                                           String newDate,
+                                           CropCellState newCellState,
+                                           double maximumRadiationEfficiency,
+                                           double diseaseDamageCropFactor,
+                                           double agbConversionFactor,
+                                           double getShortWaveRadiationForDate,
+                                           double cropEvapotranspiration) {
+        double cropFactorAndDisease = cropEvapotranspiration;
+        if(currentCell.getDiseaseCell().getCellStateByDate(newDate).isInfected()) {
+            cropFactorAndDisease = cropEvapotranspiration - cropEvapotranspiration*diseaseDamageCropFactor;
+        }
+        newCellState.setEvapotranspiration(
+                cropFactorAndDisease
+                //Missing water stress factor
+        );
+        newCellState.setCumulatedEvapotranspiration(previousState.getCumulatedEvapotranspiration()+cropFactorAndDisease);
+
+        newCellState.setAboveGroundBiomass(
+                previousState.getAboveGroundBiomass()+
+                        maximumRadiationEfficiency*newCellState.getEvapotranspiration()*getShortWaveRadiationForDate*agbConversionFactor);
+        currentCell.setCellState(newDate, newCellState);
     }
 
     public void addCrop(CropCell crop) {
@@ -100,12 +129,19 @@ public class CropLayer extends GenericWorldLayer {
     public void writeCropData() {
         String fileDirection = this.config.getProperty("crop.dataFiles");
         for(CropCell cropCell: this.cropCellList) {
-            String filename = fileDirection+"\\"+cropCell.getId()+".csv";
+            String filename = fileDirection+"\\"+cropCell.getId()+(!Boolean.parseBoolean(this.config.getProperty("disease.enabled")) ? "no_disease" : "")+".csv";
             List<String[]> dataLines = new ArrayList<>();
-            dataLines.add(new String[]{"date","evapotranspiration","agb"});
+            dataLines.add(new String[]{"date","disease","evapotranspiration","agb","cumulatedTemperature", "cumulatedEvapotranspiration"});
             cropCell.getHistoricalData().keySet().stream().forEach(dateKey -> {
                 CropCellState stateCell = (CropCellState) cropCell.getHistoricalData().get(dateKey);
-                dataLines.add(new String[]{dateKey.toString(),stateCell.getEvapotranspiration()+"",stateCell.getAboveGroundBiomass()+""});
+                dataLines.add(new String[]{
+                        dateKey.toString(),
+                        cropCell.getDiseaseCell().getHistoricalData().get(dateKey).isInfected() ? "true":"false",
+                        stateCell.getEvapotranspiration()+"",
+                        stateCell.getAboveGroundBiomass()+"",
+                        stateCell.getGrowingDegreeDays()+"",
+                        stateCell.getCumulatedEvapotranspiration()+""
+                });
             });
             File csvOutputFile = new File(filename);
             try (PrintWriter pw = new PrintWriter(csvOutputFile)) {

@@ -7,10 +7,13 @@ public class CropCellState implements LayerCellState {
     protected double growingDegreeDays;
     protected double aboveGroundBiomass;
 
-    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass) {
+    protected double cumulatedEvapotranspiration;
+
+    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass, double cumulatedEvapotranspiration) {
         this.evapotranspiration = riceEvapotranspiration;
         this.growingDegreeDays = currentGrowingDegreeDays;
         this.aboveGroundBiomass = currentAboveGroundBiomass;
+        this.cumulatedEvapotranspiration = cumulatedEvapotranspiration;
     }
 
     public CropCellState() {
@@ -38,5 +41,13 @@ public class CropCellState implements LayerCellState {
 
     public void setAboveGroundBiomass(double aboveGroundBiomass) {
         this.aboveGroundBiomass = aboveGroundBiomass;
+    }
+
+    public double getCumulatedEvapotranspiration() {
+        return cumulatedEvapotranspiration;
+    }
+
+    public void setCumulatedEvapotranspiration(double cumulatedEvapotranspiration) {
+        this.cumulatedEvapotranspiration = cumulatedEvapotranspiration;
     }
 }

@@ -102,7 +102,7 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
                 newCellState.setCurrentProbabilityDisease(probabilityDiseaseConfigured);
                 newCellState.setInfected(false);
                 currentCell.setCellState(dateExecution, newCellState);
-            } else {
+            } else if(!((DiseaseCellState) currentCell.getCellState()).isInfected()){
                 double insecticideDaysEffectiveness = Integer.parseInt(this.worldConfig.getProperty("disease.insecticideEfficacyDays"));
                 double incrementNeighborInfected = Double.parseDouble(this.worldConfig.getProperty("disease.incrementNeighborInfected"));
                 int quantityNeighborsInfected = 0;
@@ -115,16 +115,25 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
                 }
                 // Verifies if the crop disease cell doesn't have insecticide or the date after application is bigger than the configured
                 DiseaseCellState newCellState = new DiseaseCellState();
-                if(currentCell.getDateInsecticideApplication() == null || DateHelper.differenceDaysBetweenTwoDates(currentCell.getDateInsecticideApplication(),dateExecution)>insecticideDaysEffectiveness) {
-                    newCellState.setCurrentProbabilityDisease(currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured);
-                    // Evaluates if should get infected if the random is less or equal of the current accumulated probability of generating a disease plus the quantity of neighbors infected multiplied the configured factor
-                    newCellState.setInfected(this.random.nextDouble() <= currentCellState.getCurrentProbabilityDisease() + quantityNeighborsInfected * incrementNeighborInfected);
+                if(Boolean.parseBoolean(this.worldConfig.getProperty("disease.enabled"))) {
+                    double nextRand = this.random.nextDouble();
+                    logger.info("Current rand for disease "+nextRand);
+                    if(currentCell.getDateInsecticideApplication() == null || DateHelper.differenceDaysBetweenTwoDates(currentCell.getDateInsecticideApplication(),dateExecution)>insecticideDaysEffectiveness) {
+                        newCellState.setCurrentProbabilityDisease(currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured);
+                        // Evaluates if should get infected if the random is less or equal of the current accumulated probability of generating a disease plus the quantity of neighbors infected multiplied the configured factor
+                        newCellState.setInfected(nextRand <= currentCellState.getCurrentProbabilityDisease() + quantityNeighborsInfected * incrementNeighborInfected);
+                    } else {
+                        double insecticideCoverage = currentCell.getPercentageOfCropCoverage();
+                        newCellState.setCurrentProbabilityDisease(insecticideCoverage == 100 ? 0 : ((currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured)*insecticideCoverage/100));
+                        newCellState.setInfected(nextRand <= currentCellState.getCurrentProbabilityDisease() + ((quantityNeighborsInfected * incrementNeighborInfected)*insecticideCoverage==100 ? 0: insecticideCoverage/100));
+                    }
                 } else {
-                    double insecticideCoverage = currentCell.getPercentageOfCropCoverage();
-                    newCellState.setCurrentProbabilityDisease(insecticideCoverage == 100 ? 0 : ((currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured)*insecticideCoverage/100));
-                    newCellState.setInfected(this.random.nextDouble() <= currentCellState.getCurrentProbabilityDisease() + ((quantityNeighborsInfected * incrementNeighborInfected)*insecticideCoverage==100 ? 0: insecticideCoverage/100));
+                    newCellState.setCurrentProbabilityDisease(0);
+                    newCellState.setInfected(false);
                 }
                 currentCell.setCellState(dateExecution, newCellState);
+            } else {
+                currentCell.setCellState(dateExecution, currentCellState);
             }
         }
     }
