@@ -9,11 +9,19 @@ public class CropCellState implements LayerCellState {
 
     protected double cumulatedEvapotranspiration;
 
-    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass, double cumulatedEvapotranspiration) {
+    protected double depletionFractionAdjusted;
+
+    protected double rootZoneDepletionAtTheEndOfDay;
+
+
+
+    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass, double cumulatedEvapotranspiration, double depletionFractionAdjusted, double rootZoneDepletionAtTheEndOfDay) {
         this.evapotranspiration = riceEvapotranspiration;
         this.growingDegreeDays = currentGrowingDegreeDays;
         this.aboveGroundBiomass = currentAboveGroundBiomass;
         this.cumulatedEvapotranspiration = cumulatedEvapotranspiration;
+        this.depletionFractionAdjusted = depletionFractionAdjusted;
+        this.rootZoneDepletionAtTheEndOfDay = rootZoneDepletionAtTheEndOfDay;
     }
 
     public CropCellState() {
@@ -49,5 +57,20 @@ public class CropCellState implements LayerCellState {
 
     public void setCumulatedEvapotranspiration(double cumulatedEvapotranspiration) {
         this.cumulatedEvapotranspiration = cumulatedEvapotranspiration;
+    }
+
+    public double getDepletionFractionAdjusted() {
+        return depletionFractionAdjusted;
+    }
+    public void setDepletionFractionAdjusted(double depletionFractionAdjusted) {
+        this.depletionFractionAdjusted = depletionFractionAdjusted;
+    }
+
+    public double getRootZoneDepletionAtTheEndOfDay() {
+        return rootZoneDepletionAtTheEndOfDay;
+    }
+
+    public void setRootZoneDepletionAtTheEndOfDay(double rootZoneDepletionAtTheEndOfDay) {
+        this.rootZoneDepletionAtTheEndOfDay = rootZoneDepletionAtTheEndOfDay;
     }
 }

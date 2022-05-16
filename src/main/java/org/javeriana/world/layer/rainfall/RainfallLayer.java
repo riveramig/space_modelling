@@ -31,11 +31,13 @@ public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
     @Override
     public void executeLayer(LayerExecutionParams params) {
         LayerFunctionParams params1 = (LayerFunctionParams) params;
-        double rainThreshold = Double.parseDouble(this.worldConfig.getProperty("rainfall.minThreshold"));
+        double rainfallThresholdPercentage = Double.parseDouble(this.worldConfig.getProperty("rainfall.thresholdPercentage"));
         if(this.cell.getCellState() == null) {
             int monthFromDate = DateHelper.getMonthFromStringDate(params1.getDate());
             double newRainfallRate = this.calculateGaussianFromMonthData(monthFromDate);
-            double verifyRainfall = newRainfallRate <= rainThreshold ? 0 : newRainfallRate;
+            double averageRainfallForMonth = monthlyData.get(monthFromDate).getAverage();
+            double adjustedRainfall = averageRainfallForMonth + averageRainfallForMonth*rainfallThresholdPercentage;
+            double verifyRainfall = newRainfallRate <= adjustedRainfall ? 0 : newRainfallRate;
             this.cell.setCellState(params1.getDate(), new RainfallCellState(verifyRainfall));
         } else {
             DateTimeFormatter dtfOut = DateTimeFormat.forPattern(this.worldConfig.getProperty("date.format"));
@@ -46,7 +48,9 @@ public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
                 int month = previousStateDatePlusOneDay.getMonthOfYear()-1;
                 String newDate = dtfOut.print(previousStateDatePlusOneDay);
                 double newRainfallRate = this.calculateGaussianFromMonthData(month);
-                double verifyRainfall = newRainfallRate <= rainThreshold ? 0 : newRainfallRate;
+                double averageRainfallForMonth = monthlyData.get(month).getAverage();
+                double adjustedRainfall = averageRainfallForMonth + averageRainfallForMonth*rainfallThresholdPercentage;
+                double verifyRainfall = newRainfallRate <= adjustedRainfall ? 0 : newRainfallRate;
                 this.cell.setCellState(newDate, new RainfallCellState(verifyRainfall));
             }
         }

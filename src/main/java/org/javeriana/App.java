@@ -1,8 +1,22 @@
 package org.javeriana;
 
+import BESA.ExceptionBESA;
+import BESA.Kernel.Agent.Event.EventBESA;
+import BESA.Kernel.Agent.StructBESA;
+import BESA.Kernel.System.AdmBESA;
+import BESA.Kernel.System.Directory.AgHandlerBESA;
+import BESA.Log.ReportBESA;
+import org.javeriana.agents.messages.peasant.PeasantMessage;
+import org.javeriana.agents.messages.peasant.PeasantMessageType;
+import org.javeriana.agents.peasant.PeasantAgent;
+import org.javeriana.agents.peasant.PeasantGuard;
+import org.javeriana.agents.peasant.PeasantState;
+import org.javeriana.agents.world.WorldAgent;
+import org.javeriana.agents.world.WorldGuard;
+import org.javeriana.agents.world.WorldState;
 import org.javeriana.util.WorldConfiguration;
-import org.javeriana.world.LayerExecutor;
 import org.javeriana.world.helper.Hemisphere;
+import org.javeriana.world.helper.Soil;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.crop.CropLayer;
 import org.javeriana.world.layer.crop.cell.rice.RiceCell;
@@ -22,15 +36,43 @@ import java.util.Random;
  */
 public class App 
 {
-
+    private static final String MAIN_RICE_CROP_ID = "rice_1";
+    private static final double PSSWD = 0.91;
     public static void main( String[] args )
     {
+        AdmBESA adm = AdmBESA.getInstance();
+        WorldAgent worldAgent = buildWorld();
+        worldAgent.start();
+        PeasantAgent peasantAgent = buildProPeasantAgent();
+        peasantAgent.start();
+
+        //----- first message query peasant world agent for crop information
+        try{
+            AgHandlerBESA ah = adm.getHandlerByAid(peasantAgent.getAid());
+            PeasantMessage peasantMessageRequestCropInformation = new PeasantMessage(PeasantMessageType.REQUEST_CROP_INFORMATION,ah.getAgId(), null);
+            peasantMessageRequestCropInformation.setDate("01/01/2022");
+            EventBESA eventBESA = new EventBESA(PeasantGuard.class.getName(),peasantMessageRequestCropInformation);
+            ah.sendEvent(eventBESA);
+        } catch (ExceptionBESA exceptionBESA) {
+            exceptionBESA.printStackTrace();
+        }
+    }
+
+    private static WorldAgent buildWorld() {
+        WorldState worldState = buildWorldState();
+        StructBESA structBESA = new StructBESA();
+        structBESA.bindGuard(WorldGuard.class);
+        try {
+            WorldAgent worldAgent = new WorldAgent("worldsito", worldState,structBESA,PSSWD);
+            return worldAgent;
+        }catch (ExceptionBESA ex) {
+            ReportBESA.error(ex);
+        }
+        return null;
+    }
+
+    private static WorldState buildWorldState() {
         WorldConfiguration worldConfiguration = WorldConfiguration.getPropsInstance();
-
-        System.out.println(new Random().nextDouble());
-        //-------------------------------------- Weather Layers ----------------------------------------------------------
-
-
         ShortWaveRadiationLayer radiationLayer = new ShortWaveRadiationLayer(
                 worldConfiguration.getProperty("data.radiation"),
                 Hemisphere.SOUTHERN,
@@ -39,92 +81,49 @@ public class App
         EvapotranspirationLayer evapotranspirationLayer = new EvapotranspirationLayer(worldConfiguration.getProperty("data.evapotranspiration"));
         RainfallLayer rainfallLayer = new RainfallLayer(worldConfiguration.getProperty("data.rainfall"));
         DiseaseLayer diseaseLayer = new DiseaseLayer();
-
-        //-------------------------------------- Disease Layer -----------------------------------------------------------
-
-        DiseaseCell root1DiseaseCell = new DiseaseCell("root1DiseaseCell");
-        DiseaseCell root2DiseaseCell = new DiseaseCell("root2DiseaseCell");
-        DiseaseCell rice1DiseaseCell = new DiseaseCell("rice1DiseaseCell");
-        DiseaseCell rice2DiseaseCell = new DiseaseCell("rice2DiseaseCell");
-
-        diseaseLayer.addVertex(root1DiseaseCell);
-        diseaseLayer.addVertex(root2DiseaseCell);
-        diseaseLayer.addVertex(rice1DiseaseCell);
-        diseaseLayer.addVertex(rice2DiseaseCell);
-
-        diseaseLayer.addEdge(root1DiseaseCell,rice1DiseaseCell);
-        diseaseLayer.addEdge(root1DiseaseCell,root2DiseaseCell);
-        diseaseLayer.addEdge(root2DiseaseCell,rice2DiseaseCell);
-
-        //-------------------------------------- Crops -------------------------------------------------------------------
-
-        RootCell root1 = new RootCell(
-                0.5,
-                1.10,
-                0.95,
-                1650,
-                9900,
-                20,
-                true,
-                root1DiseaseCell,
-                "root_1"
-                );
-        RootCell root2 = new RootCell(
-                0.5,
-                1.10,
-                0.95,
-                1650,
-                9900,
-                30,
-                true,
-                root2DiseaseCell,
-                "root_2"
-        );
-        RiceCell rice1 = new RiceCell(
-                1.20,
-                0.9,
-                0.9,
-                1512,
-                3330,
-                30,
-                true,
-                rice1DiseaseCell,
-                "rice_1"
-        );
-        RiceCell rice2 = new RiceCell(
-                1.20,
-                0.9,
-                0.9,
-                1512,
-                3330,
-                15,
-                true,
-                rice2DiseaseCell,
-                "rice_2"
-        );
-
-
         CropLayer cropLayer = new CropLayer();
-        cropLayer.addCrop(root1);
-        cropLayer.addCrop(root2);
-        cropLayer.addCrop(rice1);
-        cropLayer.addCrop(rice2);
-
+        DiseaseCell diseaseCellRice = new DiseaseCell("rice1DiseaseCell");
+        cropLayer.addCrop(new RootCell(
+                1.20,
+                0.9,
+                0.9,
+                1512,
+                3330,
+                100,
+                0.9,
+                0.2,
+                Soil.LOAMY_SAND,
+                true,
+                diseaseCellRice,
+                MAIN_RICE_CROP_ID
+        ));
         cropLayer.bindLayer("radiation", radiationLayer);
         cropLayer.bindLayer("rainfall", rainfallLayer);
         cropLayer.bindLayer("temperature", temperatureLayer);
         cropLayer.bindLayer("evapotranspiration", evapotranspirationLayer);
-
-
-        //----------------------------------- Layer executor -------------------------------
-        LayerExecutor layerExecutor = new LayerExecutor();
-        layerExecutor.addLayer(radiationLayer,temperatureLayer,evapotranspirationLayer,rainfallLayer,diseaseLayer,cropLayer);
-        layerExecutor.executeLayers(new LayerFunctionParams("01/01/2022"));
-        layerExecutor.executeLayers(new LayerFunctionParams("15/05/2022"));
-        cropLayer.writeCropData();
+        return new WorldState(temperatureLayer,radiationLayer,cropLayer,diseaseLayer,evapotranspirationLayer,rainfallLayer);
     }
 
+    private static PeasantAgent buildProPeasantAgent() {
+        PeasantState peasantState = new PeasantState(
+                MAIN_RICE_CROP_ID
+        );
+        StructBESA structBESA= new StructBESA();
+        structBESA.bindGuard(PeasantGuard.class);
+        try {
+            PeasantAgent peasantAgent = new PeasantAgent("peasantPro",peasantState, structBESA, PSSWD);
+            return peasantAgent;
+        }catch (ExceptionBESA ex) {
+            ReportBESA.error(ex);
+        }
+        return null;
+    }
 
+    private static void buildLazyPeasantAgent() {
 
+    }
 
+    private static void buildNormalPeasantAgent() {
+
+    }
 }

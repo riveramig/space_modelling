@@ -2,6 +2,7 @@ package org.javeriana.world.layer.crop.cell;
 
 import org.javeriana.automata.core.cell.LayerCellState;
 import org.javeriana.automata.core.cell.GenericWorldLayerCell;
+import org.javeriana.world.helper.Soil;
 import org.javeriana.world.layer.disease.DiseaseCell;
 
 public abstract class CropCell<S extends LayerCellState> extends GenericWorldLayerCell<S> {
@@ -16,7 +17,33 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
 
     protected DiseaseCell diseaseCell;
 
-    public CropCell(double cropFactor_ini, double cropFactor_mid, double cropFactor_end, double degreeDays_mid, double degreeDays_end, int cropArea, boolean isActive,DiseaseCell diseaseCell) {
+    protected double maximumRootDepth;
+
+    protected double depletionFraction;
+
+    protected Soil soilType;
+
+    // TAW
+    protected double totalAvailableWater;
+
+    //RAW
+
+    protected double readilyAvailableWater;
+
+
+
+
+    public CropCell(double cropFactor_ini,
+                    double cropFactor_mid,
+                    double cropFactor_end,
+                    double degreeDays_mid,
+                    double degreeDays_end,
+                    int cropArea,
+                    double maximumRootDepth,
+                    double depletionFraction,
+                    Soil soilType,
+                    boolean isActive,
+                    DiseaseCell diseaseCell) {
         this.cropFactor_ini = cropFactor_ini;
         this.cropFactor_mid = cropFactor_mid;
         this.cropFactor_end = cropFactor_end;
@@ -25,6 +52,16 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
         this.cropArea = cropArea;
         this.isActive=isActive;
         this.diseaseCell = diseaseCell;
+        this.maximumRootDepth = maximumRootDepth;
+        this.depletionFraction = depletionFraction;
+        this.soilType = soilType;
+        this.calculateTAWRAW();
+    }
+
+    //Equations from https://www.fao.org/3/x0490e/x0490e0e.htm#total%20available%20water%20(taw)  equations 82, 83
+    private void calculateTAWRAW() {
+        this.totalAvailableWater = 1000*(this.soilType.getWaterContentAtFieldCapacity() - this.soilType.getWaterContentAtWiltingPoint())*this.maximumRootDepth;
+        this.readilyAvailableWater = this.depletionFraction * this.totalAvailableWater;
     }
 
     public CropCell() {
@@ -93,4 +130,37 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
     public void setDiseaseCell(DiseaseCell diseaseCell) {
         this.diseaseCell = diseaseCell;
     }
+
+    public double getMaximumRootDepth() {
+        return maximumRootDepth;
+    }
+
+    public void setMaximumRootDepth(double maximumRootDepth) {
+        this.maximumRootDepth = maximumRootDepth;
+    }
+
+    public double getDepletionFraction() {
+        return depletionFraction;
+    }
+
+    public void setDepletionFraction(double depletionFraction) {
+        this.depletionFraction = depletionFraction;
+    }
+
+    public Soil getSoilType() {
+        return soilType;
+    }
+
+    public void setSoilType(Soil soilType) {
+        this.soilType = soilType;
+    }
+
+    public double getTotalAvailableWater() {
+        return totalAvailableWater;
+    }
+
+    public double getReadilyAvailableWater() {
+        return readilyAvailableWater;
+    }
+
 }
