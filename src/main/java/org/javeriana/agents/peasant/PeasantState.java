@@ -12,15 +12,13 @@ public class PeasantState extends StateBESA {
     private double probabilityOfWaterCropIfWaterStress;
 
     private double probabilityOfPesticideIfDisease;
-    private double probabilityToTakeMonthlyCourse;
 
     private Set<Integer> monthsTakenCourse = new HashSet<>();
 
 
-    public PeasantState(String cropId, double probabilityOfDailyCropSupervision, double probabilityToTakeMonthlyCourse, double probabilityOfWaterCropIfWaterStress, double probabilityOfPesticideIfDisease) {
+    public PeasantState(String cropId, double probabilityOfDailyCropSupervision, double probabilityOfWaterCropIfWaterStress, double probabilityOfPesticideIfDisease) {
         this.cropId = cropId;
         this.probabilityOfDailyCropSupervision = probabilityOfDailyCropSupervision;
-        this.probabilityToTakeMonthlyCourse = probabilityToTakeMonthlyCourse;
         this.probabilityOfWaterCropIfWaterStress = probabilityOfWaterCropIfWaterStress;
         this.probabilityOfPesticideIfDisease = probabilityOfPesticideIfDisease;
     }
@@ -39,14 +37,6 @@ public class PeasantState extends StateBESA {
 
     public void setProbabilityOfDailyCropSupervision(double probabilityOfDailyCropSupervision) {
         this.probabilityOfDailyCropSupervision = probabilityOfDailyCropSupervision;
-    }
-
-    public double getProbabilityToTakeMonthlyCourse() {
-        return probabilityToTakeMonthlyCourse;
-    }
-
-    public void setProbabilityToTakeMonthlyCourse(double probabilityToTakeMonthlyCourse) {
-        this.probabilityToTakeMonthlyCourse = probabilityToTakeMonthlyCourse;
     }
 
     public Set<Integer> getMonthsTakenCourse() {

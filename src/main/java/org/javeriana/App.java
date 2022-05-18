@@ -40,7 +40,7 @@ public class App
     private static final String MAIN_RICE_CROP_ID = "rice_1";
     private static final double PSSWD = 0.91;
 
-    private static long DAY_LENGTH = 500;
+    private static long DAY_LENGTH = 100;
     private static long CHECK_CROP_STATUS_PERIODIC = 7;
     private static final String INIT_SIMULATION_DATE = "15/03/2022";
 
@@ -170,8 +170,7 @@ public class App
         PeasantState peasantState = new PeasantState(
                 MAIN_RICE_CROP_ID,
                 0.75,
-                0.6,
-                0.5,
+                0.65,
                 0.65
         );
         StructBESA structBESA= new StructBESA();
@@ -190,15 +189,14 @@ public class App
         PeasantState peasantState = new PeasantState(
                 MAIN_RICE_CROP_ID,
                 0.35,
-                0.25,
                 0,
-                0.4
+                0.2
         );
         StructBESA structBESA= new StructBESA();
         structBESA.bindGuard(PeasantPeriodicGuard.class);
         structBESA.bindGuard(PeasantGuard.class);
         try {
-            PeasantAgent peasantAgent = new PeasantAgent("peasantPro",peasantState, structBESA, PSSWD);
+            PeasantAgent peasantAgent = new PeasantAgent("peasantLazy",peasantState, structBESA, PSSWD);
             return peasantAgent;
         }catch (ExceptionBESA ex) {
             ReportBESA.error(ex);
@@ -210,15 +208,14 @@ public class App
         PeasantState peasantState = new PeasantState(
                 MAIN_RICE_CROP_ID,
                 0.55,
-                0.45,
-                0.4,
+                0.5,
                 0.6
         );
         StructBESA structBESA= new StructBESA();
         structBESA.bindGuard(PeasantPeriodicGuard.class);
         structBESA.bindGuard(PeasantGuard.class);
         try {
-            PeasantAgent peasantAgent = new PeasantAgent("peasantPro",peasantState, structBESA, PSSWD);
+            PeasantAgent peasantAgent = new PeasantAgent("peasantNormi",peasantState, structBESA, PSSWD);
             return peasantAgent;
         }catch (ExceptionBESA ex) {
             ReportBESA.error(ex);
