@@ -10,6 +10,8 @@ import org.javeriana.world.helper.DateHelper;
 import org.javeriana.world.layer.LayerFunctionParams;
 import org.javeriana.world.layer.crop.cell.CropCell;
 import org.javeriana.world.layer.crop.cell.CropCellState;
+import org.javeriana.world.layer.crop.cell.action.CropCellAction;
+import org.javeriana.world.layer.crop.cell.action.CropCellActionType;
 import org.javeriana.world.layer.evapotranspiration.EvapotranspirationLayer;
 import org.javeriana.world.layer.rainfall.RainfallLayer;
 import org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationLayer;
@@ -109,6 +111,7 @@ public class CropLayer extends GenericWorldLayer {
                         //------------------------------------ alert peasant crop is ready to collect ---------------------------------------------------
                         if(newCellState.getGrowingDegreeDays() > currentCell.getDegreeDays_end()) {
                             currentCell.setCellState(newDate,previousState);
+                            currentCell.setHarvestReady(true);
                         } else {
                             double cropEvapotranspirationStandard = currentCell.getCropFactor_end()*evapotranspirationForDate;
                             setCropEvapotranspiration(
@@ -169,12 +172,30 @@ public class CropLayer extends GenericWorldLayer {
         double k_s = 1;
         if (depletionRootZoneStart > currentCell.getReadilyAvailableWater()) {
             k_s = ((currentCell.getTotalAvailableWater()-depletionRootZoneStart)/((1-depletionFraction)*currentCell.getTotalAvailableWater()));
+            newState.setWaterStress(true);
+        }else {
+            newState.setWaterStress(false);
         }
         double newCropEvapotranspiration = cropEvapotranspiration * k_s;
         // Calculate new root zone depletion for the end of the day based from the soil water balance - from: https://www.fao.org/3/x0490e/x0490e0e.htm#total%20available%20water%20(taw) equation 85
-        double rootZoneDepletionEndOfDay = (rainfallForDate > depletionRootZoneStart) ? currentCell.getReadilyAvailableWater() : depletionRootZoneStart - rainfallForDate + newCropEvapotranspiration;
+        double rootZoneDepletionEndOfDay = (rainfallForDate > depletionRootZoneStart) ? currentCell.getReadilyAvailableWater() : depletionRootZoneStart - rainfallForDate - this.sumCurrentIrrigationEvents(currentCell) + newCropEvapotranspiration;
         newState.setRootZoneDepletionAtTheEndOfDay(rootZoneDepletionEndOfDay);
         return newCropEvapotranspiration;
+    }
+
+    private double sumCurrentIrrigationEvents(CropCell currentCell) {
+        List<CropCellAction>nonIrrigationEvents = new ArrayList<>();
+        double allIrrigation = 0;
+        for(Object cropCellActionObject : currentCell.getCellActions()) {
+            CropCellAction cropCellAction = (CropCellAction) cropCellActionObject;
+            if(cropCellAction.getActionType() == CropCellActionType.IRRIGATION) {
+                allIrrigation+=Double.parseDouble(cropCellAction.getPayload());
+            } else {
+                nonIrrigationEvents.add(cropCellAction);
+            }
+        }
+        currentCell.setCellActions(nonIrrigationEvents);
+        return allIrrigation;
     }
 
     public void addCrop(CropCell crop) {
@@ -185,10 +206,20 @@ public class CropLayer extends GenericWorldLayer {
         return (CropCellState) this.cropCellMap.get(id).getCellState();
     }
 
+    public CropCell getCropCellById(String id) {
+        return this.cropCellMap.get(id);
+    }
+
+    public void addIrrigationEvent(String cropId, String waterQuantity, String date) {
+        CropCellAction cropCellAction = new CropCellAction(CropCellActionType.IRRIGATION,waterQuantity,date);
+        CropCell cropCell = this.cropCellMap.get(cropId);
+        cropCell.addCellAction(cropCellAction);
+    }
+
     public void writeCropData() {
         String fileDirection = this.config.getProperty("crop.dataFiles");
         for(CropCell cropCell: this.cropCellMap.values()) {
-            String diseaseEnabled =Boolean.parseBoolean(this.config.getProperty("disease.enabled")) ? "_disease_" : "";
+            String diseaseEnabled =this.config.isDiseasePerturbation() ? "_disease_" : "";
             String waterStressEnabled = Boolean.parseBoolean(this.config.getProperty("waterStress.enabled")) ? "_water_stress_" : "";
             String filename = fileDirection+"\\"+cropCell.getId()+diseaseEnabled+waterStressEnabled+".csv";
             List<String[]> dataLines = new ArrayList<>();
@@ -228,5 +259,9 @@ public class CropLayer extends GenericWorldLayer {
             escapedData = "\"" + data + "\"";
         }
         return escapedData;
+    }
+
+    public List<CropCell> getAllCrops() {
+        return (List<CropCell>) this.cropCellMap.values();
     }
 }

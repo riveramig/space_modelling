@@ -14,7 +14,6 @@ public class DateHelper {
         DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
         DateTime dateTime1 = formatter.parseDateTime(date1);
         DateTime dateTime2 = formatter.parseDateTime(date2);
-        int daysDifference = Days.daysBetween(dateTime1,dateTime2).getDays();
         return Days.daysBetween(dateTime1,dateTime2).getDays();
     }
 
@@ -23,6 +22,12 @@ public class DateHelper {
         String dateFormat = config.getProperty("date.format");
         DateTimeFormatter formatter = DateTimeFormat.forPattern(dateFormat);
         return formatter.parseDateTime(date);
+    }
+
+    public static String parseDateTimeToString(DateTime time) {
+        WorldConfiguration config = WorldConfiguration.getPropsInstance();
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern(config.getProperty("date.format"));
+        return  dtfOut.print(time);
     }
 
     public static int getMonthFromStringDate(String date) {

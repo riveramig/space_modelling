@@ -14,6 +14,8 @@ public class WorldConfiguration {
 
     private static WorldConfiguration instance = null;
     private Properties appProperties;
+    private boolean diseasePerturbation = false;
+    private boolean coursePerturbation = false;
 
     private WorldConfiguration() {
         try {
@@ -34,7 +36,28 @@ public class WorldConfiguration {
         return instance;
     }
 
+    public void setPerturbations(boolean diseasePerturbation, boolean coursePerturbation){
+        getPropsInstance().setDiseasePerturbation(diseasePerturbation);
+        getPropsInstance().setCoursePerturbation(coursePerturbation);
+    }
+
+    public void setDiseasePerturbation(boolean diseasePerturbation) {
+        this.diseasePerturbation = diseasePerturbation;
+    }
+
+    public void setCoursePerturbation(boolean coursePerturbation) {
+        this.coursePerturbation = coursePerturbation;
+    }
+
     public String getProperty(String key) {
         return this.appProperties.getProperty(key);
+    }
+
+    public boolean isDiseasePerturbation() {
+        return this.diseasePerturbation;
+    }
+
+    public boolean isCoursePerturbation() {
+        return this.coursePerturbation;
     }
 }

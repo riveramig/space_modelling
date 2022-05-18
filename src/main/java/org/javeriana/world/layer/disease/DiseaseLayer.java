@@ -7,12 +7,13 @@ import org.javeriana.automata.core.layer.LayerExecutionParams;
 import org.javeriana.util.WorldConfiguration;
 import org.javeriana.world.helper.DateHelper;
 import org.javeriana.world.layer.LayerFunctionParams;
+import org.javeriana.world.layer.disease.action.DiseaseCellAction;
 import org.jgrapht.Graphs;
-import org.jgrapht.traverse.BreadthFirstIterator;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
                 newCellState.setCurrentProbabilityDisease(probabilityDiseaseConfigured);
                 newCellState.setInfected(false);
                 currentCell.setCellState(dateExecution, newCellState);
-            } else if(!((DiseaseCellState) currentCell.getCellState()).isInfected()){
+            } else {
                 double insecticideDaysEffectiveness = Integer.parseInt(this.worldConfig.getProperty("disease.insecticideEfficacyDays"));
                 double incrementNeighborInfected = Double.parseDouble(this.worldConfig.getProperty("disease.incrementNeighborInfected"));
                 int quantityNeighborsInfected = 0;
@@ -115,26 +116,34 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
                 }
                 // Verifies if the crop disease cell doesn't have insecticide or the date after application is bigger than the configured
                 DiseaseCellState newCellState = new DiseaseCellState();
-                if(Boolean.parseBoolean(this.worldConfig.getProperty("disease.enabled"))) {
+                if(this.worldConfig.isDiseasePerturbation()) {
                     double nextRand = this.random.nextDouble();
                     logger.info("Current rand for disease "+nextRand);
-                    if(currentCell.getDateInsecticideApplication() == null || DateHelper.differenceDaysBetweenTwoDates(currentCell.getDateInsecticideApplication(),dateExecution)>insecticideDaysEffectiveness) {
+                    this.updateCellInsecticideFromCellEvents(currentCell);
+                    if(currentCell.getDateInsecticideApplication() == null || DateHelper.differenceDaysBetweenTwoDates(dateExecution,currentCell.getDateInsecticideApplication())>insecticideDaysEffectiveness) {
                         newCellState.setCurrentProbabilityDisease(currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured);
                         // Evaluates if should get infected if the random is less or equal of the current accumulated probability of generating a disease plus the quantity of neighbors infected multiplied the configured factor
-                        newCellState.setInfected(nextRand <= currentCellState.getCurrentProbabilityDisease() + quantityNeighborsInfected * incrementNeighborInfected);
+                        newCellState.setInfected(((DiseaseCellState) currentCell.getCellState()).isInfected() || nextRand <= currentCellState.getCurrentProbabilityDisease() + quantityNeighborsInfected * incrementNeighborInfected);
                     } else {
                         double insecticideCoverage = currentCell.getPercentageOfCropCoverage();
-                        newCellState.setCurrentProbabilityDisease(insecticideCoverage == 100 ? 0 : ((currentCellState.getCurrentProbabilityDisease() + probabilityDiseaseConfigured)*insecticideCoverage/100));
-                        newCellState.setInfected(nextRand <= currentCellState.getCurrentProbabilityDisease() + ((quantityNeighborsInfected * incrementNeighborInfected)*insecticideCoverage==100 ? 0: insecticideCoverage/100));
+                        newCellState.setCurrentProbabilityDisease(0);
+                        newCellState.setInfected(false);
                     }
                 } else {
                     newCellState.setCurrentProbabilityDisease(0);
                     newCellState.setInfected(false);
                 }
                 currentCell.setCellState(dateExecution, newCellState);
-            } else {
-                currentCell.setCellState(dateExecution, currentCellState);
             }
+        }
+    }
+
+    private void updateCellInsecticideFromCellEvents(DiseaseCell diseaseCell) {
+        if(diseaseCell.getCellActions().size() > 0) {
+            DiseaseCellAction cellAction = (DiseaseCellAction) diseaseCell.getCellActions().get(0);
+            diseaseCell.setDateInsecticideApplication(cellAction.getDate());
+            diseaseCell.setPercentageOfCropCoverage(Double.parseDouble(cellAction.getPayload()));
+            diseaseCell.setCellActions(new ArrayList<>());
         }
     }
 
@@ -148,5 +157,10 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
             logger.info("current probability of infection: "+((DiseaseCellState)currentCell.getCellState()).getCurrentProbabilityDisease());
             logger.info("-------------------");
         }
+    }
+
+    public void addInsecticideEvent(String diseaseCellId, String groundCoverage, String date) {
+        DiseaseCellAction diseaseCellAction = new DiseaseCellAction(groundCoverage,date);
+        this.cellDirectory.get(diseaseCellId).addCellAction(diseaseCellAction);
     }
 }

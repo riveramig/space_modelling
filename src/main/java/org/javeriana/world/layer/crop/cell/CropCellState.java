@@ -13,15 +13,26 @@ public class CropCellState implements LayerCellState {
 
     protected double rootZoneDepletionAtTheEndOfDay;
 
+    protected boolean waterStress;
 
 
-    public CropCellState(double riceEvapotranspiration, double currentGrowingDegreeDays, double currentAboveGroundBiomass, double cumulatedEvapotranspiration, double depletionFractionAdjusted, double rootZoneDepletionAtTheEndOfDay) {
+
+    public CropCellState(
+            double riceEvapotranspiration,
+            double currentGrowingDegreeDays,
+            double currentAboveGroundBiomass,
+            double cumulatedEvapotranspiration,
+            double depletionFractionAdjusted,
+            double rootZoneDepletionAtTheEndOfDay,
+            boolean waterStress
+    ) {
         this.evapotranspiration = riceEvapotranspiration;
         this.growingDegreeDays = currentGrowingDegreeDays;
         this.aboveGroundBiomass = currentAboveGroundBiomass;
         this.cumulatedEvapotranspiration = cumulatedEvapotranspiration;
         this.depletionFractionAdjusted = depletionFractionAdjusted;
         this.rootZoneDepletionAtTheEndOfDay = rootZoneDepletionAtTheEndOfDay;
+        this.waterStress = waterStress;
     }
 
     public CropCellState() {
@@ -72,5 +83,13 @@ public class CropCellState implements LayerCellState {
 
     public void setRootZoneDepletionAtTheEndOfDay(double rootZoneDepletionAtTheEndOfDay) {
         this.rootZoneDepletionAtTheEndOfDay = rootZoneDepletionAtTheEndOfDay;
+    }
+
+    public boolean isWaterStress() {
+        return waterStress;
+    }
+
+    public void setWaterStress(boolean waterStress) {
+        this.waterStress = waterStress;
     }
 }

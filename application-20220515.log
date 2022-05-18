@@ -11732,3 +11732,11 @@
 2022-05-15 19:47:29.846 [Thread-3] INFO  org.javeriana.agents.peasant.PeasantGuard - Message received: Request crop info
 2022-05-15 19:48:00.614 [Thread-3] INFO  org.javeriana.agents.peasant.PeasantGuard - Message received: Request crop info
 2022-05-15 19:48:00.623 [Thread-1] INFO  org.javeriana.agents.world.WorldGuard - Message received: Crop - rice_1 information null date: null
+2022-05-15 19:53:38.966 [Thread-3] INFO  org.javeriana.agents.peasant.PeasantGuard - Message received: Request crop info
+2022-05-15 19:53:38.976 [Thread-1] INFO  org.javeriana.agents.world.WorldGuard - Message received: Crop - rice_1 information null date: 01/01/2022
+2022-05-15 19:53:39.007 [Thread-1] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 1.779900274912471
+2022-05-15 19:53:39.008 [Thread-1] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.236150634159625
+2022-05-15 19:53:39.009 [Thread-1] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 3.8776244235853725
+2022-05-15 19:53:39.010 [Thread-1] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-15 19:53:39.010 [Thread-1] INFO  org.javeriana.world.layer.disease.DiseaseLayer - For Date: 01/01/2022
+2022-05-15 19:53:39.022 [Thread-3] INFO  org.javeriana.agents.peasant.PeasantGuard - Crop info received: {"depletionFractionAdjusted":0,"aboveGroundBiomass":0,"rootZoneDepletionAtTheEndOfDay":16.2,"growingDegreeDays":27.236150634159625,"evapotranspiration":4.653149308302447,"cumulatedEvapotranspiration":4.653149308302447}

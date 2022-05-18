@@ -20,8 +20,9 @@ public class RootCell extends CropCell<RootCellState> {
             Soil soilType,
             boolean isActive,
             DiseaseCell diseaseCell,
-            String id) {
-        super(cropFactor_ini, cropFactor_mid, cropFactor_end, degreeDays_mid, degreeDays_end, cropArea, maximumRootDepth, depletionFraction, soilType, isActive, diseaseCell);
+            String id,
+            String agentPeasantId) {
+        super(cropFactor_ini, cropFactor_mid, cropFactor_end, degreeDays_mid, degreeDays_end, cropArea, maximumRootDepth, depletionFraction, soilType, isActive, diseaseCell, agentPeasantId);
         this.id = id;
     }
 

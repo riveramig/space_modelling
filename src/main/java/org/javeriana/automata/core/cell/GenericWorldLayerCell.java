@@ -1,6 +1,7 @@
 package org.javeriana.automata.core.cell;
 
 import org.javeriana.util.WorldConfiguration;
+import org.javeriana.world.layer.crop.cell.action.CropCellAction;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,10 @@ public abstract class GenericWorldLayerCell<S extends LayerCellState> implements
      * String date of the current cell state
      */
     protected String date;
+    /**
+     * List that holds the possible actions that can receive the cell
+     */
+    protected List<LayerCellAction> cellActions = new ArrayList<>();
 
     private Comparator<String> stringDateComparator = new Comparator<String>() {
         private String dateFormat =  WorldConfiguration.getPropsInstance().getProperty("date.format");
@@ -109,5 +114,25 @@ public abstract class GenericWorldLayerCell<S extends LayerCellState> implements
     @Override
     public LayerCellState getCellState() {
         return this.cellState;
+    }
+
+    /**
+     * Adds an action to the cell queue to be executed in the future
+     * @param layerCellAction action to be added to the queue
+     */
+    public void addCellAction(LayerCellAction layerCellAction) {
+        this.cellActions.add(layerCellAction);
+    }
+
+    /**
+     * Returns all the actions to be processed
+     * @return Queue<LayerCellAction>
+     */
+    public List<LayerCellAction> getCellActions() {
+        return cellActions;
+    }
+
+    public void setCellActions(List<LayerCellAction> cellActions) {
+        this.cellActions = cellActions;
     }
 }

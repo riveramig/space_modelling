@@ -30,8 +30,9 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
 
     protected double readilyAvailableWater;
 
+    protected String agentPeasantId;
 
-
+    protected boolean harvestReady = false;
 
     public CropCell(double cropFactor_ini,
                     double cropFactor_mid,
@@ -43,7 +44,8 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
                     double depletionFraction,
                     Soil soilType,
                     boolean isActive,
-                    DiseaseCell diseaseCell) {
+                    DiseaseCell diseaseCell,
+                    String agentPeasantId) {
         this.cropFactor_ini = cropFactor_ini;
         this.cropFactor_mid = cropFactor_mid;
         this.cropFactor_end = cropFactor_end;
@@ -55,6 +57,7 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
         this.maximumRootDepth = maximumRootDepth;
         this.depletionFraction = depletionFraction;
         this.soilType = soilType;
+        this.agentPeasantId = agentPeasantId;
         this.calculateTAWRAW();
     }
 
@@ -163,4 +166,18 @@ public abstract class CropCell<S extends LayerCellState> extends GenericWorldLay
         return readilyAvailableWater;
     }
 
+    public String getAgentPeasantId() {
+        return agentPeasantId;
+    }
+    public void setAgentPeasantId(String agentPeasantId) {
+        this.agentPeasantId = agentPeasantId;
+    }
+
+    public boolean isHarvestReady() {
+        return harvestReady;
+    }
+
+    public void setHarvestReady(boolean harvestReady) {
+        this.harvestReady = harvestReady;
+    }
 }
