@@ -250,6 +250,8 @@ public class App
                 worldConfiguration.setPerturbations(true, false); break;
             case "course":
                 worldConfiguration.setPerturbations(false, true); break;
+            default:
+                worldConfiguration.setPerturbations(false, false); break;
         }
     }
 }
