@@ -1,74 +1,74 @@
 [
   {
-    "average": 28.39,
-    "standardDeviation": 14.16,
-    "maxValue": 59.90,
-    "minValue": 13.08
+    "average": 26.9705,
+    "standardDeviation": 13.452,
+    "maxValue": 56.905,
+    "minValue": 12.426
   },
   {
-    "average": 30.07,
-    "standardDeviation": 11.49,
-    "maxValue": 46.26,
-    "minValue": 10.29
+    "average": 28.5665,
+    "standardDeviation": 10.9155,
+    "maxValue": 43.946999999999996,
+    "minValue": 9.7755
   },
   {
-    "average": 49.35,
-    "standardDeviation": 17.17,
-    "maxValue": 83.50,
-    "minValue": 23.86
+    "average": 46.8825,
+    "standardDeviation": 16.311500000000002,
+    "maxValue": 79.325,
+    "minValue": 22.666999999999998
   },
   {
-    "average": 132.29,
-    "standardDeviation": 30.29,
-    "maxValue": 187.46,
-    "minValue": 88.18
+    "average": 125.6755,
+    "standardDeviation": 28.7755,
+    "maxValue": 178.08700000000002,
+    "minValue": 83.771
   },
   {
-    "average": 201.74,
-    "standardDeviation": 25,
-    "maxValue": 242.43,
-    "minValue": 158.37
+    "average": 191.65300000000002,
+    "standardDeviation": 23.75,
+    "maxValue": 230.3085,
+    "minValue": 150.4515
   },
   {
-    "average": 193.41,
-    "standardDeviation": 22.99,
-    "maxValue": 233.76,
-    "minValue": 150.30
+    "average": 183.7395,
+    "standardDeviation": 21.8405,
+    "maxValue": 222.072,
+    "minValue": 142.78500000000003
   },
   {
-    "average": 190.03,
-    "standardDeviation": 20.75,
-    "maxValue": 224.01,
-    "minValue": 158.85
+    "average": 180.5285,
+    "standardDeviation": 19.7125,
+    "maxValue": 212.80949999999999,
+    "minValue": 150.9075
   },
   {
-    "average": 121.97,
-    "standardDeviation": 37.07,
-    "maxValue": 212.97,
-    "minValue": 288.93
+    "average": 115.8715,
+    "standardDeviation": 35.2165,
+    "maxValue": 202.3215,
+    "minValue": 274.4835
   },
   {
-    "average": 220.40,
-    "standardDeviation": 32.60,
-    "maxValue": 283.76,
-    "minValue": 179.89
+    "average": 209.38,
+    "standardDeviation": 30.970000000000002,
+    "maxValue": 269.572,
+    "minValue": 170.8955
   },
   {
-    "average": 251.9,
-    "standardDeviation": 35.76,
-    "maxValue": 308.29,
-    "minValue": 191.76
+    "average": 239.305,
+    "standardDeviation": 33.972,
+    "maxValue": 292.87550000000005,
+    "minValue": 182.172
   },
   {
-    "average": 188.87,
-    "standardDeviation": 22.15,
-    "maxValue": 214.91,
-    "minValue": 147.29
+    "average": 179.4265,
+    "standardDeviation": 21.042499999999997,
+    "maxValue": 204.1645,
+    "minValue": 139.9255
   },
   {
-    "average": 94.28,
-    "standardDeviation": 17.89,
-    "maxValue": 123.76,
-    "minValue": 70.37
+    "average": 89.566,
+    "standardDeviation": 16.9955,
+    "maxValue": 117.572,
+    "minValue": 66.8515
   }
 ]

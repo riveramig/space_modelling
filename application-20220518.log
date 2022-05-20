@@ -17207,4 +17207,54 @@
 2022-05-18 08:44:35.624 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantPeriodicGuard - Current date: 14/07/2022
 2022-05-18 08:44:35.733 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantPeriodicGuard - Current date: 15/07/2022
 2022-05-18 08:44:35.840 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantPeriodicGuard - Current date: 16/07/2022
-2022-05-18 08:44:35.840 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantGuard - Message recei
+2022-05-18 08:44:35.840 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantGuard - Message received: Request crop info
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.agents.world.WorldGuard - Message received: Crop - rice_1 information null date: 16/07/2022
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 22.285078081069074
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 23.98963368346204
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 20.495267954830066
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 22.034939842286434
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationCellState - New short wave radiation state: 20.41601546927582
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.24161957493803
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.510352360266378
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.10008208091348
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.863721685376866
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.temperature.TemperatureCell - New temperature state: 27.498065770877563
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 4.02175934474446
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 3.821581217804086
+2022-05-18 08:44:35.840 [Thread-3] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 4.006871043737817
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 3.63792943444937
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.evapotranspiration.EvapotranspirationCellState - Next evapotranspiration state: 3.793320292347794
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.rainfall.RainfallCellState - New rainfall state: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -----------> For Date: 12/07/2022 <-----------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - Cell: rice1DiseaseCell
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - infected: false
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - current probability of infection: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -------------------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -----------> For Date: 13/07/2022 <-----------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - Cell: rice1DiseaseCell
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - infected: false
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - current probability of infection: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -------------------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -----------> For Date: 14/07/2022 <-----------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - Cell: rice1DiseaseCell
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - infected: false
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - current probability of infection: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -------------------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -----------> For Date: 15/07/2022 <-----------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - Cell: rice1DiseaseCell
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - infected: false
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - current probability of infection: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -------------------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -----------> For Date: 16/07/2022 <-----------
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - Cell: rice1DiseaseCell
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - infected: false
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - current probability of infection: 0.0
+2022-05-18 08:44:35.841 [Thread-3] INFO  org.javeriana.world.layer.disease.DiseaseLayer - -------------------
+2022-05-18 08:44:35.842 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantGuard - Crop info received: {"disease":false,"waterStress":true,"depletionFractionAdjusted":0.2273066758553811,"aboveGroundBiomass":6397.507175864192,"rootZoneDepletionAtTheEndOfDay":4.810240257728627,"evapotranspiration":3.6530829491589616,"growingDegreeDays":3325.957502487937,"cropHarvestReady":true,"cumulatedEvapotranspiration":441.54605773639645}
+2022-05-18 08:44:35.842 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantGuard - Sending irrigation to crop...
+2022-05-18 08:44:35.842 [Thread-1] INFO  org.javeriana.agents.peasant.PeasantGuard - Harvesting the crop...
+2022-05-18 08:44:35.842 [Thread-3] INFO  org.javeriana.agents.world.WorldGuard - Irrigation on the crop, date: 16/07/2022
