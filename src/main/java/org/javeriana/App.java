@@ -160,8 +160,10 @@ public class App
                 break;
             case "pro":
                 peasantAgent = buildProPeasantAgent();
+                break;
             default:
                 peasantAgent = buildNormalPeasantAgent();
+                break;
         }
         return peasantAgent;
     }
