@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Concrete implementation of the evapotranspiration cell state
+ */
 public class EvapotranspirationCellState implements LayerCellState {
 
     private static final Logger logger = LogManager.getLogger(EvapotranspirationCellState.class);

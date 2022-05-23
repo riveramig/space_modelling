@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Abstract implementation for the layers, used for this specific world simulation
+ * @param <C> type of cell
+ */
 public abstract class SimWorldSimpleLayer<C extends LayerCell> extends GenericWorldLayerUniqueCell<C> {
 
     protected List<MonthData> monthlyData;

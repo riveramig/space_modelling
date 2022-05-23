@@ -5,6 +5,10 @@ import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 import org.javeriana.world.helper.Soil;
 import org.javeriana.world.layer.disease.DiseaseCell;
 
+/**
+ * Crop cell abstract implementation, holds the necessary attributes (according to FAO) to model the crop cell behavior
+ * @param <S> Cell
+ */
 public abstract class CropCell<S extends LayerCellState> extends GenericWorldLayerCell<S> {
     protected double cropFactor_ini;
     protected double cropFactor_mid;

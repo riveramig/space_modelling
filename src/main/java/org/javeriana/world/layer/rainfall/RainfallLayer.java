@@ -10,6 +10,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Rainfall layer concrete implementation
+ */
 public class RainfallLayer extends SimWorldSimpleLayer<RainfallCell> {
 
     private static final Logger logger = LogManager.getLogger(RainfallLayer.class);

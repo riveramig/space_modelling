@@ -4,6 +4,9 @@ import org.javeriana.world.helper.Soil;
 import org.javeriana.world.layer.crop.cell.CropCell;
 import org.javeriana.world.layer.disease.DiseaseCell;
 
+/**
+ * Rice crop cell implementation
+ */
 public class RiceCell extends CropCell<RiceCellState> {
 
     private String id;

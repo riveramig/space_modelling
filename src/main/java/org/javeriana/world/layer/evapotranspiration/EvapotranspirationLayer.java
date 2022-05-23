@@ -11,6 +11,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Concrete implementation of the evapotranspiration layer
+ */
 public class EvapotranspirationLayer extends SimWorldSimpleLayer<EvapotranspirationCell> {
 
     private static final Logger logger = LogManager.getLogger(EvapotranspirationLayer.class);

@@ -2,6 +2,9 @@ package org.javeriana.world.layer;
 
 import org.javeriana.automata.core.layer.LayerExecutionParams;
 
+/**
+ * Pojo implementation that holds the necessary parameters for the layer executions
+ */
 public class LayerFunctionParams implements LayerExecutionParams {
     private String date;
 

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Pojo that contains all the world layers and executes them in a specific order
+ */
 public class LayerExecutor {
 
     private List<WorldLayer>layers = new ArrayList<>();

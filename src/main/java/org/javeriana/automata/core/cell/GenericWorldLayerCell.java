@@ -126,7 +126,7 @@ public abstract class GenericWorldLayerCell<S extends LayerCellState> implements
 
     /**
      * Returns all the actions to be processed
-     * @return Queue<LayerCellAction>
+     * @return list of actions
      */
     public List<LayerCellAction> getCellActions() {
         return cellActions;

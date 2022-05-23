@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Concrete implementation of the rainfall cell state
+ */
 public class RainfallCellState implements LayerCellState {
 
     private static final Logger logger = LogManager.getLogger(RainfallCellState.class);

@@ -40,7 +40,7 @@ public class App
     private static final String MAIN_RICE_CROP_ID = "rice_1";
     private static final double PSSWD = 0.91;
 
-    private static long DAY_LENGTH = 100;
+    private static long DAY_LENGTH = 50;
     private static long CHECK_CROP_STATUS_PERIODIC = 7;
     private static final String INIT_SIMULATION_DATE = "15/03/2022";
 
@@ -173,7 +173,7 @@ public class App
                 MAIN_RICE_CROP_ID,
                 0.75,
                 0.65,
-                0.65
+                0.6
         );
         StructBESA structBESA= new StructBESA();
         structBESA.bindGuard(PeasantPeriodicGuard.class);
@@ -211,7 +211,7 @@ public class App
                 MAIN_RICE_CROP_ID,
                 0.55,
                 0.5,
-                0.6
+                0.5
         );
         StructBESA structBESA= new StructBESA();
         structBESA.bindGuard(PeasantPeriodicGuard.class);
@@ -252,6 +252,8 @@ public class App
                 worldConfiguration.setPerturbations(true, false); break;
             case "course":
                 worldConfiguration.setPerturbations(false, true); break;
+            case "all":
+                worldConfiguration.setPerturbations(true, true); break;
             default:
                 worldConfiguration.setPerturbations(false, false); break;
         }

@@ -10,6 +10,9 @@ import org.javeriana.world.layer.rainfall.RainfallLayer;
 import org.javeriana.world.layer.shortWaveRadiation.ShortWaveRadiationLayer;
 import org.javeriana.world.layer.temperature.TemperatureLayer;
 
+/**
+ * Class that holds the world state, in this case the cellular automaton layers
+ */
 public class WorldState extends StateBESA {
     private TemperatureLayer temperatureLayer;
     private ShortWaveRadiationLayer shortWaveRadiationLayer;

@@ -7,16 +7,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Singleton pojo of the world configuration keys
+ */
 public class WorldConfiguration {
 
     private static final Logger logger = LogManager.getLogger(WorldConfiguration.class);
     private static final String CONF_NAME = "app.properties";
-
     private static WorldConfiguration instance = null;
     private Properties appProperties;
     private boolean diseasePerturbation = false;
     private boolean coursePerturbation = false;
 
+    /**
+     * In the constructor loads the configuration file in memory
+     */
     private WorldConfiguration() {
         try {
             ClassLoader classLoader = getClass().getClassLoader();

@@ -1,6 +1,5 @@
 package org.javeriana;
 
-import org.javeriana.util.WorldConfiguration;
 import org.javeriana.world.helper.DateHelper;
 import org.joda.time.DateTime;
 

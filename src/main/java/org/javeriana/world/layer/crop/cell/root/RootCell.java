@@ -4,6 +4,9 @@ import org.javeriana.world.helper.Soil;
 import org.javeriana.world.layer.crop.cell.CropCell;
 import org.javeriana.world.layer.disease.DiseaseCell;
 
+/**
+ * Root cell implementation
+ */
 public class RootCell extends CropCell<RootCellState> {
 
     private String id;

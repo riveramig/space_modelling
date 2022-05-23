@@ -2,6 +2,9 @@ package org.javeriana.world.layer.crop.cell.action;
 
 import org.javeriana.automata.core.cell.LayerCellAction;
 
+/**
+ * Crop cell action implementation, holds the payload, action type and date for an action to be taken into account during the layer execution
+ */
 public class CropCellAction implements LayerCellAction {
     private CropCellActionType actionType;
     private String payload;

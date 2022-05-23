@@ -2,6 +2,9 @@ package org.javeriana.world.layer.crop.cell;
 
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Implementation for a generic crop cell state, holds the attributes that change over time
+ */
 public class CropCellState implements LayerCellState {
     protected double evapotranspiration;
     protected double growingDegreeDays;

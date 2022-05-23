@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Concrete implementation of the short wave radiation cell state
+ */
 public class ShortWaveRadiationCellState implements LayerCellState {
 
     private static final Logger logger = LogManager.getLogger(ShortWaveRadiationCellState.class);

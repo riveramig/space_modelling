@@ -14,6 +14,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Short wave radiation layer implementation
+ */
 public class ShortWaveRadiationLayer extends SimWorldSimpleLayer<ShortWaveRadiationCell> {
 
     private static final Logger logger = LogManager.getLogger(ShortWaveRadiationLayer.class);

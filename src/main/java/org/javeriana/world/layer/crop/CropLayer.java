@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Crop layer concrete implementation
+ */
 public class CropLayer extends GenericWorldLayer {
 
     private static final Logger logger = LogManager.getLogger(CropLayer.class);

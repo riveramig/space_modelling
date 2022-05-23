@@ -2,8 +2,14 @@ package org.javeriana.automata.core.layer;
 
 import java.util.HashMap;
 
+/**
+ * Generic world layer, abstract implementation of a generic world simulation layer
+ */
 public abstract class GenericWorldLayer implements WorldLayer {
 
+    /**
+     * Data structure that holds the dependant layers
+     */
     protected HashMap<String, WorldLayer> dependantLayers;
 
     public GenericWorldLayer(){

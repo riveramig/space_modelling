@@ -15,6 +15,9 @@ import org.joda.time.DateTime;
 
 import java.util.Random;
 
+/**
+ * BESA peasant's periodic guard, wakes up the peasant, then he reacts if he will check the crop
+ */
 public class PeasantPeriodicGuard extends PeriodicGuardBESA {
     private Random random = new Random();
     private static final Logger logger = LogManager.getLogger(PeasantPeriodicGuard.class);
@@ -30,7 +33,9 @@ public class PeasantPeriodicGuard extends PeriodicGuardBESA {
         if(worldConfiguration.isCoursePerturbation() && !peasantState.getMonthsTakenCourse().contains(dateTime.getMonthOfYear())){
             //Verifies if the simulation has the course perturbation, if so then changes the peasant probabilities for that month
             double newWaterCropProbability = peasantState.getProbabilityOfWaterCropIfWaterStress() + Double.parseDouble(worldConfiguration.getProperty("course.waterCropIfStressImprovement"));
+            double newInsecticideProbability = peasantState.getProbabilityOfPesticideIfDisease() + Double.parseDouble(worldConfiguration.getProperty("course.insecticideIfDiseaseImprovement"));
             peasantState.setProbabilityOfWaterCropIfWaterStress(newWaterCropProbability > 1 ? 1 : newWaterCropProbability);
+            peasantState.setProbabilityOfPesticideIfDisease(newInsecticideProbability > 1 ? 1 : newInsecticideProbability);
             peasantState.getMonthsTakenCourse().add(dateTime.getMonthOfYear());
         }
         // Evaluate if the peasant will check the crop based on his probability

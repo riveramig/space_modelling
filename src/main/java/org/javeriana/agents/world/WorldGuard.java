@@ -20,6 +20,9 @@ import org.javeriana.world.layer.crop.cell.CropCellState;
 import org.javeriana.world.layer.disease.DiseaseCellState;
 import org.json.JSONObject;
 
+/**
+ * BESA world's guard, holds the actions that receive from the peasant agent
+ */
 public class WorldGuard extends GuardBESA {
     private static final Logger logger = LogManager.getLogger(WorldGuard.class);
     private WorldConfiguration worldConfig =  WorldConfiguration.getPropsInstance();

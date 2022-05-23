@@ -16,7 +16,9 @@ import org.json.JSONObject;
 
 import java.util.Random;
 
-
+/**
+ * BESA peasant's guard, holds the logic to react if the crop has water disease or stress among other logic
+ */
 public class PeasantGuard extends GuardBESA {
 
     private static final String WORLD_AGENT_ID = "worldsito";

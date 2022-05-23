@@ -2,6 +2,9 @@ package org.javeriana.world.layer.disease;
 
 import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
+/**
+ * Concrete disease cell implementation
+ */
 public class DiseaseCell extends GenericWorldLayerCell<DiseaseCellState> {
 
     private String id;

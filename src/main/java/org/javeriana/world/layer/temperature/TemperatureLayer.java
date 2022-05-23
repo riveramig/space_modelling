@@ -11,6 +11,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+/**
+ * Temperature layer concrete implementation
+ */
 public class TemperatureLayer extends SimWorldSimpleLayer<TemperatureCell> {
 
     private static final Logger logger = LogManager.getLogger(TemperatureLayer.class);

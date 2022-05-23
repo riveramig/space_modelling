@@ -2,6 +2,9 @@ package org.javeriana.world.layer.disease;
 
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Concrete disease cell state implementation
+ */
 public class DiseaseCellState implements LayerCellState {
 
     private double probabilityDisease;

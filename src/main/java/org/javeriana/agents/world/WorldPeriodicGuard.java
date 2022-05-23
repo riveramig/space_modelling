@@ -8,6 +8,9 @@ import org.javeriana.DateSingleton;
 import org.javeriana.agents.messages.world.WorldMessage;
 import org.javeriana.agents.messages.world.WorldMessageType;
 
+/**
+ * BESA world's periodic guard, holds the behavior when calling the world agent
+ */
 public class WorldPeriodicGuard extends PeriodicGuardBESA {
 
     @Override

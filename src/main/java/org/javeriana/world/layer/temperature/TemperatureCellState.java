@@ -4,6 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javeriana.automata.core.cell.LayerCellState;
 
+/**
+ * Temperature cell state concrete implementation
+ */
 public class TemperatureCellState implements LayerCellState {
 
     private static final Logger logger = LogManager.getLogger(TemperatureCell.class);

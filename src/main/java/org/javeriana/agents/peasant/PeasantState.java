@@ -5,14 +5,32 @@ import BESA.Kernel.Agent.StateBESA;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Peasant state, holds all the necessary attributes for this simulation
+ */
 public class PeasantState extends StateBESA {
+    /**
+     * Crop associated to the peasant
+     */
     private String cropId;
+    /**
+     * Probability that a peasant reviews the crop state for a given day
+     */
     private double probabilityOfDailyCropSupervision;
 
+    /**
+     * Probability of the peasant to water the crop if it has water stress
+     */
     private double probabilityOfWaterCropIfWaterStress;
 
+    /**
+     * Probability of the peasant to water the crop if it has a disease
+     */
     private double probabilityOfPesticideIfDisease;
 
+    /**
+     * Data structure that holds the months that the peasant has taken courses
+     */
     private Set<Integer> monthsTakenCourse = new HashSet<>();
 
 

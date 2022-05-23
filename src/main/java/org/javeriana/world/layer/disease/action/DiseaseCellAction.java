@@ -2,6 +2,9 @@ package org.javeriana.world.layer.disease.action;
 
 import org.javeriana.automata.core.cell.LayerCellAction;
 
+/**
+ * Implementation of an action that can be taken into account in the layer execution ej: insecticide application to crop
+ */
 public class DiseaseCellAction implements LayerCellAction {
     String payload;
     String date;

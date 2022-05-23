@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Concrete disease layer implementation
+ */
 public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
 
     private static final Logger logger = LogManager.getLogger(DiseaseLayer.class);
@@ -159,6 +162,12 @@ public class DiseaseLayer extends GenericWorldLayerGraphCell<DiseaseCell> {
         }
     }
 
+    /**
+     * Adds a disease action in this case insecticide, will affect the calculation during the layer execution
+     * @param diseaseCellId Id of the cell
+     * @param groundCoverage percentage of coverage of the crop
+     * @param date date of application
+     */
     public void addInsecticideEvent(String diseaseCellId, String groundCoverage, String date) {
         DiseaseCellAction diseaseCellAction = new DiseaseCellAction(groundCoverage,date);
         this.cellDirectory.get(diseaseCellId).addCellAction(diseaseCellAction);

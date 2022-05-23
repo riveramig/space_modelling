@@ -3,6 +3,9 @@ package org.javeriana.world.layer.temperature;
 import org.javeriana.automata.core.cell.LayerCellState;
 import org.javeriana.automata.core.cell.GenericWorldLayerCell;
 
+/**
+ * Temperature cell concrete implementation
+ */
 public class TemperatureCell extends GenericWorldLayerCell<LayerCellState> {
 
 
